@@ -55,8 +55,8 @@ class User extends Authenticatable
         return $meta;
     }
 
-    public function getMeta($key){
-        return $this->meta()->where('key',$key)->first();
+    public function getMeta($key = null){
+        return ($key == null) ? $this->meta()->get()->all() : $this->meta()->where('key',$key)->first();
     }
     public function getDefaultMetaIds(){
         $defaultMeta = $this->meta()

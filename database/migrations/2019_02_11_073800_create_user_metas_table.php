@@ -20,6 +20,7 @@ class CreateUserMetasTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->string('icon')->nullable();
+            $table->enum('type', ['text', 'number', 'email','tel', 'url','date', 'time'])->default('text');
             $table->string('description')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
         });

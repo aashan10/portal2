@@ -26,7 +26,13 @@ class UserMetaController extends Controller
         $metas = $request->except(['_token','_method']);
         foreach ($metas as $key => $value){
             if($key !== null && $value !== null){
-                $user->setMeta($key, $value);
+                if(is_array($value)){
+                    $meta = $user->setMeta($key, $value['value']);
+                    $meta->type = $value['type'];
+                    $meta->icon = $value['icon'];
+                }else{
+                    $user->setMeta($key, $value);
+                }
             }
         }
         return redirect()->back()->with('success','The user meta was updated successfully!');

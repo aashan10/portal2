@@ -89,7 +89,7 @@
                     @method('PATCH')
                     <div class="form-group">
                         <label for="name">Bio</label>
-                        <textarea type="text" name="bio" class="form-control {{ ($errors->has('bio')) ? 'is-invalid' : '' }}" >{{ $user->getMeta('bio')->value }}</textarea>
+                        <textarea type="text" name="bio" class="form-control {{ ($errors->has('bio')) ? 'is-invalid' : '' }}" >{{ ($user->getMeta('bio')) ? $user->getMeta('bio')->value : '' }}</textarea>
                         @if($errors->has('bio'))
                             <span class="invalid-feedback">
                                 {{ $errors->first('bio') }}
@@ -102,7 +102,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name">Faculty</label>
-                                    <input type="text" name="faculty" class="form-control"  value="{{ $user->getMeta('faculty')->value }}" {{ ($errors->has('faculty')) ? 'is-invalid' : '' }}" />
+                                    <input type="text" name="faculty" class="form-control"  value="{{ ($user->getMeta('faculty')) ? $user->getMeta('faculty')->value : '' }}" {{ ($errors->has('faculty')) ? 'is-invalid' : '' }}" />
                                     @if($errors->has('faculty'))
                                         <span class="invalid-feedback">
                                             {{ $errors->first('faculty') }}
@@ -113,7 +113,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name">Batch</label>
-                                    <input type="number" name="batch"  value="{{ $user->getMeta('batch')->value }}" class="form-control {{ ($errors->has('batch')) ? 'is-invalid' : '' }}" />
+                                    <input type="number" name="batch"  value="{{ ($user->getMeta('batch')) ? $user->getMeta('batch')->value : '' }}" class="form-control {{ ($errors->has('batch')) ? 'is-invalid' : '' }}" />
                                     @if($errors->has('batch'))
                                         <span class="invalid-feedback">
                                             {{ $errors->first('batch') }}
@@ -127,7 +127,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name">Facebook URL</label>
-                                    <input type="text" name="facebook" class="form-control {{ ($errors->has('facebook')) ? 'is-invalid' : '' }}" value="{{ $user->getMeta('facebook')->value }}" placeholder="https://fb.com/{your-user-name}" />
+                                    <input type="text" name="facebook" class="form-control {{ ($errors->has('facebook')) ? 'is-invalid' : '' }}" value="{{ ($user->getMeta('facebook')) ? $user->getMeta('facebook')->value : '' }}" placeholder="https://fb.com/{your-user-name}" />
                                     @if($errors->has('facebook'))
                                         <span class="invalid-feedback">
                                             {{ $errors->first('facebook') }}
@@ -138,7 +138,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name">Twitter URL</label>
-                                    <input type="text" name="twitter" class="form-control {{ ($errors->has('twitter')) ? 'is-invalid' : '' }}"  value="{{ $user->getMeta('twitter')->value }}" placeholder="https://twitter.com/{your-user-name}" />
+                                    <input type="text" name="twitter" class="form-control {{ ($errors->has('twitter')) ? 'is-invalid' : '' }}"  value="{{ ($user->getMeta('twitter')) ? $user->getMeta('twitter')->value : '' }}" placeholder="https://twitter.com/{your-user-name}" />
                                     @if($errors->has('twitter'))
                                         <span class="invalid-feedback">
                                             {{ $errors->first('twitter') }}
@@ -149,7 +149,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="name">Phone</label>
-                                    <input type="text" name="phone" value="{{ $user->getMeta('phone')->value }}" class="form-control {{ ($errors->has('phone')) ? 'is-invalid' : '' }}" />
+                                    <input type="text" name="phone" value="{{ ($user->getMeta('phone')) ? $user->getMeta('phone')->value : '' }}" class="form-control {{ ($errors->has('phone')) ? 'is-invalid' : '' }}" />
                                     @if($errors->has('phone'))
                                         <span class="invalid-feedback">
                                             {{ $errors->first('phone') }}
@@ -161,7 +161,7 @@
                     </div>
                     <div class="form-group">
                         <label for="name">Website</label>
-                        <input type="text" name="website" value="{{ $user->getMeta('website')->value }}" class="form-control {{ ($errors->has('website')) ? 'is-invalid' : '' }}" />
+                        <input type="text" name="website" value="{{ ($user->getMeta('website')) ? $user->getMeta('website')->value : '' }}" class="form-control {{ ($errors->has('website')) ? 'is-invalid' : '' }}" />
                         @if($errors->has('website'))
                             <span class="invalid-feedback">
                                 {{ $errors->first('website  ') }}
@@ -253,12 +253,28 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Custom Field Title</label>
+                    <label>Title</label>
                     <input type="text" id="customFieldKey" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label>Custom Field Value</label>
+                    <label>Type</label>
+                    <select id="customFieldType" class="form-control" onchange="changeCustomPostType()">
+                        <option value="text">Text</option>
+                        <option value="number">Number</option>
+                        <option value="date">Date</option>
+                        <option value="time">Time</option>
+                        <option value="url">URL</option>
+                        <option value="email">Email</option>
+                        <option value="tel">Phone</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Value</label>
                     <input type="text" id="customFieldValue" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Icon</label>
+                    <input type="text" id="customFieldIcon" class="form-control">
                 </div>
             </div>
             <div class="modal-footer">
@@ -273,6 +289,9 @@
     function appendCustomField(){
         var customFieldKey = document.getElementById('customFieldKey').value;
         var customFieldValue = document.getElementById('customFieldValue').value;
+        var customFieldType = document.getElementById('customFieldType').value;
+        var customFieldIcon = document.getElementById('customFieldIcon').value;
+
         if(customFieldKey == ''){
             alert('The custom field name can\'t be empty!');
         }else{
@@ -285,15 +304,34 @@
             var label = document.createElement('label');
             label.innerText = customFieldKey;
 
+            var customFielTypeForm = document.createElement('input');
+            var customFielIconForm = document.createElement('input');
+
             var input = document.createElement('input');
             input.setAttribute('type','text');
-            input.setAttribute('name',customFieldKey);
+            input.setAttribute('name',customFieldKey+'[value]');
             input.setAttribute('class','form-control');
             input.setAttribute('value',customFieldValue);
+            customFielTypeForm.setAttribute('type', 'text');
+            customFielIconForm.setAttribute('type', 'text');
+            customFielTypeForm.setAttribute('name', customFieldKey+'[type]');
+            customFielIconForm.setAttribute('name', customFieldKey+'[icon]');
+            customFielTypeForm.setAttribute('value', customFieldType);
+            customFielIconForm.setAttribute('value', customFieldIcon);
+            customFielTypeForm.setAttribute('hidden', true);
+            customFielIconForm.setAttribute('hidden', true);
 
+            formGroup.appendChild(customFielTypeForm);
+            formGroup.appendChild(customFielIconForm);
             formGroup.appendChild(label);
             formGroup.appendChild(input);
             parent.appendChild(formGroup);
         }
+    }
+
+    function changeCustomPostType(){
+        var customFieldValue = document.getElementById('customFieldValue');
+        var customFieldType = document.getElementById('customFieldType').value;
+        customFieldValue.setAttribute('type', customFieldType);
     }
 </script>
