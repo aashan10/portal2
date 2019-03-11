@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\UserMeta;
 use Illuminate\Http\Request;
 use Auth;
+use App\Helper\Response;
 class UserMetaController extends Controller
 {
     public function __construct()
@@ -38,10 +40,15 @@ class UserMetaController extends Controller
         return redirect()->back()->with('success','The user meta was updated successfully!');
     }
 
-    public function destroy(User $user, $key )
+    public function delete($key )
     {
-        $usermeta = $user->meta()->where('key',$key)->first();
-        $usermeta->delete();
-        return redirect()->back()->with('success','The `{$key}` was deleted successfully!');
+
+        $meta = UserMeta::find($key);
+        if($meta){
+            $key = $meta->key;
+            $meta->delete();
+            return Response::success('The '.$key.' field has been deleted successfully!');
+        }
+        return Response::errorContentNotFound();
     }
 }

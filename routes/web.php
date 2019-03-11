@@ -25,7 +25,7 @@ Route::resource('/users','UserController');
 
 Route::prefix('/user-meta')->group(function(){
     Route::patch('/update','UserMetaController@update')->name('user-meta.update');
-    Route::delete('/delete','UserMetaController@delete')->name('user-meta.delete');
+    Route::delete('/delete/{id}','UserMetaController@delete')->name('user-meta.delete');
 });
 
 Route::post('/user/change-password', 'UserController@changePassword')->name('change-password');

@@ -102,7 +102,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name">Faculty</label>
-                                    <input type="text" name="faculty" class="form-control"  value="{{ ($user->getMeta('faculty')) ? $user->getMeta('faculty')->value : '' }}" {{ ($errors->has('faculty')) ? 'is-invalid' : '' }}" />
+                                    <input type="text" name="faculty" class="form-control"  value="{{ ($user->getMeta('faculty')) ? $user->getMeta('faculty')->value : '' }}" class="{{ ($errors->has('faculty')) ? 'is-invalid' : '' }}" />
                                     @if($errors->has('faculty'))
                                         <span class="invalid-feedback">
                                             {{ $errors->first('faculty') }}
@@ -172,6 +172,7 @@
                     @if($user->hasCustomMeta())
                         @foreach($user->getCustomMeta() as $meta)
                             <div class="form-group">
+                                <button class="btn btn-sm float-right btn-outline-danger deleteMeta" data-id="{{$meta->id}}"> <i class="fa fa-window-close"></i> </button>
                                 <label for="{{ $meta->key }}">{{ ucfirst($meta->key) }}</label>
                                 <input type="text" name="{{ $meta->key }}" value="{{ $user->getMeta($meta->key)->value }}" class="form-control {{ ($errors->has($meta->key)) ? 'is-invalid' : '' }}" />
                                 @if($errors->has($meta->key))
@@ -205,7 +206,7 @@
                 @if($user->password !== null)
                     <div class="form-group">
                     <label for="name">Current Password</label>
-                    <input type="password" name="current_password" class="form-control {{ ($errors->has('current_password')) ? 'is-invalid' : '' }}"/>
+                    <input type="password" name="current_password" autocomplete="false" class="form-control {{ ($errors->has('current_password')) ? 'is-invalid' : '' }}"/>
                     @if($errors->has('current_password'))
                         <span class="invalid-feedback">
                             {{ $errors->first('current_password') }}
@@ -215,7 +216,7 @@
                 @endif()
                 <div class="form-group">
                     <label for="name">New Password</label>
-                    <input type="password" name="password" class="form-control {{ ($errors->has('password')) ? 'is-invalid' : '' }}" />
+                    <input type="password" name="password" autocomplete="false" class="form-control {{ ($errors->has('password')) ? 'is-invalid' : '' }}" />
                 @if($errors->has('password'))
                     <span class="invalid-feedback">
                             {{ $errors->first('password') }}
@@ -224,7 +225,7 @@
                 </div>
                 <div class="form-group">
                     <label for="name">Confirm Password </label>
-                    <input type="password" name="password_confirmation" class="form-control {{ ($errors->has('password_confirmation')) ? 'is-invalid' : '' }}" />
+                    <input type="password" name="password_confirmation" autocomplete="false" class="form-control {{ ($errors->has('password_confirmation')) ? 'is-invalid' : '' }}" />
                     @if($errors->has('password_confirmation'))
                         <span class="invalid-feedback">
                             {{ $errors->first('password_confirmation') }}
@@ -335,3 +336,40 @@
         customFieldValue.setAttribute('type', customFieldType);
     }
 </script>
+
+@push('scripts')
+    <script src="{{ asset('/js/bootstrap-picker.min.js') }}"></script>
+    <script src="{{ asset('/js/notifjs.js') }}"></script>
+    <script src="{{ asset('/js/fontawesome-iconpicker.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.deleteMeta').click(function(event){
+                var deleteUrl  = '{{ route('user-meta.delete', ':id') }}';
+                deleteUrl=  deleteUrl.replace(':id', $(this).data('id'));
+                event.preventDefault();
+                $.ajax({
+                    url: deleteUrl,
+                    method : 'DELETE',
+                    data : {
+                        '_token' : '{{ csrf_token() }}'
+                    },
+                    success : function(response){
+                        AjaxNotifier(response,200);
+                    },
+                    error : function(response){
+                        AjaxNotifier(response, response.status);
+                    }
+                })
+            });
+            $('#customFieldIcon').focus(function(event){
+                event.preventDefault();
+                $(this).iconpicker();
+            });
+        });
+    </script>
+@endpush()
+
+@push('styles')
+    <link href="{{ asset('/css/bootstrap-picker.min.css') }}" />
+    <link href="{{ asset('/css/fontawesome-iconpicker.min.css') }}" />
+@endpush()

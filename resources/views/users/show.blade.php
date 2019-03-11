@@ -13,13 +13,20 @@
             <li class="list-group-item">
                 {!! ($user->getMeta('bio') !== null ) ? $user->getMeta('bio')->value : 'Bio<br/><a href="'.route('users.edit', $user->id).'">Set your bio</a>'  !!}
             </li>
-            <li class="list-group-item">
-                {!! ($user->getMeta('facebook') !== null  ) ? '<a href="'.$user->getMeta('facebook')->value.'"><i class="fa fa-facebook-square fa-2x"></i></a>' : '<a href="'.route('users.edit', $user->id).'">Set Facebook Profile</a>'  !!}
+            <li class="list-group-item" style="display:flex;flex-direction: row;justify-content: space-around">
+                @foreach($user->getLinks() as $meta)
+                    {!!
+                        '<a href="'
+                        .$meta->value
+                        .'"><i class="'.$meta->icon.' fa-2x"></i></a>'
+                    !!}
+                @endforeach()
             </li>
 
             @foreach($user->getMeta() as $meta)
                 <li class="list-group-item">
-
+                    <b style="float:left"> {{ ucwords($meta->key) }} </b>
+                    <pre style="float:right"> {{ $meta->value }} </pre>
                 </li>
             @endforeach()
 

@@ -56,7 +56,22 @@ class User extends Authenticatable
     }
 
     public function getMeta($key = null){
-        return ($key == null) ? $this->meta()->get()->all() : $this->meta()->where('key',$key)->first();
+        if(!$key){
+            $exclude = [];
+            $except = $this->getLinks();
+            $meta = $this->getMeta('bio');
+            array_push($exclude, $meta->id);
+            foreach($except as $e){
+                if($e->key != 'bio'){
+                    array_push($exclude,$e->id);
+                }
+            }
+        }
+        return ($key == null) ? $this->meta()->get()->except($exclude) : $this->meta()->where('key',$key)->first();
+    }
+
+    public function getLinks(){
+        return $this->meta()->where('icon', '!=', null)->whereIn('type', ['url','email'])->get();
     }
     public function getDefaultMetaIds(){
         $defaultMeta = $this->meta()
@@ -91,4 +106,5 @@ class User extends Authenticatable
         }
         return $this->avatar;
     }
+
 }
