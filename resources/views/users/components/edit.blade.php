@@ -276,7 +276,7 @@
                 </div>
                 <div class="form-group">
                     <label>Icon</label>
-                    <input type="text" id="customFieldIcon" class="form-control">
+                    <input type="text" id="customFieldIcon" class="form-control iconpicker">
                 </div>
             </div>
             <div class="modal-footer">
@@ -288,7 +288,9 @@
 </div>
 
 <div class="modal fade" id="editCustomFieldModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <form data-action="{{ route('user-meta.update', ':id') }}" id="updateCustomMetaForm">
+    <form data-action="{{ route('user-meta.updateCustomMeta', ':id') }}" id="updateCustomMetaForm" method="POST">
+        @csrf()
+        @method('PATCH')
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -304,7 +306,7 @@
                     </div>
                     <div class="form-group">
                         <label>Type</label>
-                        <select id="customFieldTypeUpdate" name="type" class="form-control" onchange="changeCustomPostType()">
+                        <select id="customFieldTypeUpdate" name="type" class="form-control" onchange="changeCustomPostTypeUpdate()">
                             <option value="text">Text</option>
                             <option value="number">Number</option>
                             <option value="date">Date</option>
@@ -320,12 +322,12 @@
                     </div>
                     <div class="form-group">
                         <label>Icon</label>
-                        <input type="text" id="customFieldIconUpdate" name="icon" class="form-control">
+                        <input type="text" id="customFieldIconUpdate" name="icon" class="form-control iconpicker">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </div>
@@ -380,51 +382,107 @@
         var customFieldType = document.getElementById('customFieldType').value;
         customFieldValue.setAttribute('type', customFieldType);
     }
+    function changeCustomPostTypeUpdate(){
+        var customFieldValue = document.getElementById('customFieldValueUpdate');
+        var customFieldType = document.getElementById('customFieldTypeUpdate').value;
+        customFieldValue.setAttribute('type', customFieldType);
+    }
 </script>
 
 @push('scripts')
-    <script src="{{ asset('/js/bootstrap-picker.min.js') }}"></script>
     <script src="{{ asset('/js/notifjs.js') }}"></script>
     <script src="{{ asset('/js/fontawesome-iconpicker.min.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+            $.ajaxSetup({
+                headers : {
+                    'X-CSRF-TOKEN' : '{{ csrf_token() }}'
+                }
+            });
             $('.deleteMeta').click(function(event){
-                var deleteUrl  = '{{ route('user-meta.delete', ':id') }}';
-                deleteUrl=  deleteUrl.replace(':id', $(this).data('id'));
                 event.preventDefault();
-                self = $(this);
-                $.ajax({
-                    url: deleteUrl,
-                    method : 'DELETE',
-                    data : {
-                        '_token' : '{{ csrf_token() }}'
-                    },
-                    success : function(response){
-                        AjaxNotifier(response,200);
-                        self.parent().fadeOut(300);
-                        $('html, body').animate({scrollTop:0}, '300');
-                    },
-                    error : function(response){
-                        AjaxNotifier(response, response.status);
-                        $('html, body').animate({scrollTop:0}, '300');
-                    }
-                })
+                if(confirm("Are you sure?") === true){
+                    var deleteUrl  = '{{ route('user-meta.delete', ':id') }}';
+                    deleteUrl=  deleteUrl.replace(':id', $(this).data('id'));
+                    self = $(this);
+                    $.ajax({
+                        url: deleteUrl,
+                        method : 'DELETE',
+                        data : {
+                            '_token' : '{{ csrf_token() }}'
+                        },
+                        success : function(response){
+                            AjaxNotifier(response,200);
+                            self.parent().fadeOut(300);
+                            $('html, body').animate({scrollTop:0}, '300');
+                        },
+                        error : function(response){
+                            AjaxNotifier(response, response.status);
+                            $('html, body').animate({scrollTop:0}, '300');
+                        }
+                    });
+                }
             });
             $('.editMeta').click(function(event){
                 event.preventDefault();
                 var custom_field = ($(this).parent().data('custom-field'));
+                var custom_field_form = $('#updateCustomMetaForm');
+                var submit_url = custom_field_form.data('action');
+                submit_url = submit_url.replace(':id', custom_field.id);
+                custom_field_form.attr('action', submit_url);
+                var key = $('#customFieldKeyUpdate');
+                var value = $('#customFieldValueUpdate');
+                var type = $('#customFieldTypeUpdate');
+                var icon = $('#customFieldIconUpdate');
+                key.attr('value', custom_field.key);
+                value.attr('value', custom_field.value);
+                value.attr('type', custom_field.type);
+                icon.attr('value', custom_field.icon);
+                type.children().map(function(key, element){
+                    if($(element).attr('value') == custom_field.type){
+                        $(element).attr('selected', true);
+                    }
+                });
                 $('#editCustomFieldModal').modal();
-
             });
-            $('#customFieldIcon').focus(function(event){
+            $('.iconpicker').click(function(event){
                 event.preventDefault();
                 $(this).iconpicker();
+            });
+            $('#changeProfileImageButton').click(function(event){
+                event.preventDefault();
+                $('#profileAvatar').click();
+            });
+            $('#profileAvatar').change(function(event){
+                event.preventDefault();
+
+                var reader = new FileReader();
+                reader.onload = function(e){
+                    $('#avatarImage').attr('src', e.target.result);
+                    $('#avatarImage').css('width', '100%');
+                }
+                reader.readAsDataURL(document.getElementById('profileAvatar').files[0]);
+                var formData = new FormData();
+                formData.append('avatar',document.getElementById('profileAvatar').files[0]);
+                $.ajax({
+                    url : '{{ route("change-avatar") }}',
+                    type : 'POST',
+                    data : formData,
+                    contentType : false,
+                    processData : false,
+                    cache : false,
+                    success : function(response){
+                        
+                    },
+                    error : function(response){
+                        
+                    }
+                });
             });
         });
     </script>
 @endpush()
 
 @push('styles')
-    <link href="{{ asset('/css/bootstrap-picker.min.css') }}" />
     <link href="{{ asset('/css/fontawesome-iconpicker.min.css') }}" />
 @endpush()

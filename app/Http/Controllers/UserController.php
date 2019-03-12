@@ -6,6 +6,8 @@ use App\User;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Helper\Response;
+
 class UserController extends Controller
 {
     /**
@@ -142,5 +144,13 @@ class UserController extends Controller
             $user->save();
             return redirect()->back()->with('success', 'Password changed successfully!');
         }
+    }
+    public function changeAvatar(Request $request){
+        if($request->file('avatar')){
+            $user = Auth::user();
+            //$request->file()->store()
+            return Response::success('Profile Picture updated successfully!');
+        }
+        return Response::errorUnprocessibleEntity('Please select an image file to upload!');
     }
 }

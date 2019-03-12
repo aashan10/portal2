@@ -88,6 +88,8 @@ class User extends Authenticatable
             ->orWhere('key','facebook')
             ->orWhere('key','twitter')
             ->orWhere('key','phone')
+            ->orWhere('key','faculty')
+            ->orWhere('key','batch')
             ->orWhere('key','website')->get();
         $ids = [];
         foreach($defaultMeta as $meta){

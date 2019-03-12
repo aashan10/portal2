@@ -47,4 +47,10 @@ class Response
             'message' => ($message!= null) ? $message : 'The content you tried to access doesn\'t exist or has been deleted!'
         ], 404);
     }
+    public static function errorUnprocessibleEntity($message = null){
+        return Reply::json([
+            'status' => 'error',
+            'message' => ($message!= null) ? $message : 'Unprocessable Entity!'
+        ], 422);
+    } 
 }

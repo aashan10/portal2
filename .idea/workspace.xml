@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3295ff02-ac82-4a61-a163-db2c0fcec5a2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../.idea/portal.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/portal.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/UserMetaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/UserMetaController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/../composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../resources/views/components/notifications.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/components/notifications.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../resources/views/layouts/main.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/layouts/main.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../resources/views/users/components/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/users/components/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../resources/views/users/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/users/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/../routes/web.php" afterDir="false" />
-    </list>
+    <list default="true" id="3295ff02-ac82-4a61-a163-db2c0fcec5a2" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -395,12 +384,12 @@
       <workItem from="1549602830079" duration="24969000" />
       <workItem from="1549867859170" duration="21388000" />
       <workItem from="1549951829226" duration="7657000" />
-      <workItem from="1552286873458" duration="10326000" />
+      <workItem from="1552286873458" duration="10379000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="64340000" />
+    <option name="totallyTimeSpent" value="64393000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1323" height="743" extended-state="6" />
@@ -410,7 +399,7 @@
       <window_info id="npm" order="1" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="2" visible="true" weight="0.15270165" />
       <window_info id="Structure" order="3" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="0" visible="true" weight="0.22149837" />
+      <window_info anchor="bottom" id="Terminal" order="0" weight="0.22149837" />
       <window_info anchor="bottom" id="Database Changes" order="1" />
       <window_info anchor="bottom" id="Event Log" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="3" />
