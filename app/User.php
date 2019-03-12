@@ -40,13 +40,22 @@ class User extends Authenticatable
         return false;
     }
 
-    public function setMeta(string $key, string $value){
+    public function setMeta(string $key, $value = null){
         if($this->metaExists($key)){
             $meta = $this->meta()->where('key',$key)->first();
             $meta->value = $value;
-            $meta->save();
         }else{
             $meta = new UserMeta();
+            if(($key == 'facebook')){
+                $meta->type = 'url';
+                $meta->icon = 'fa fa-facebook';
+            }elseif($key == 'twitter'){
+                $meta->type = 'url';
+                $meta->icon = 'fa fa-twitter';
+            }elseif($key == 'website'){
+                $meta->type = 'url';
+                $meta->icon = 'fa fa-globe';
+            }
             $meta->user_id = $this->id;
             $meta->key = $key;
             $meta->value = $value;
@@ -60,7 +69,7 @@ class User extends Authenticatable
             $exclude = [];
             $except = $this->getLinks();
             $meta = $this->getMeta('bio');
-            array_push($exclude, $meta->id);
+            array_push($exclude, ($meta!= null) ? $meta->id : null);
             foreach($except as $e){
                 if($e->key != 'bio'){
                     array_push($exclude,$e->id);

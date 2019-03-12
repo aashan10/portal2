@@ -16,8 +16,12 @@ class UserMetaController extends Controller
     public function store(Request $request, User $user = null)
     {
         ($user == null) ? $user =  Auth::user() : null ;
+        dd($request->all());
         foreach($request->all() as $key =>  $value){
-            $user->setMeta($key, $value);
+            $meta = $user->setMeta($key, $value);
+            $meta->type = in_array($value['type'], ['text','number','email','tel','url','date','time']) ? $value['type'] : 'text';
+            $meta->icon = $value['icon'];
+            $meta->save();
         }
         return redirect()->back()->with('success','The user meta was saved successfully!');
     }
@@ -30,8 +34,9 @@ class UserMetaController extends Controller
             if($key !== null && $value !== null){
                 if(is_array($value)){
                     $meta = $user->setMeta($key, $value['value']);
-                    $meta->type = $value['type'];
+                    $meta->type = in_array($value['type'], ['text','number','email','tel','url','date','time']) ? $value['type'] : 'text';
                     $meta->icon = $value['icon'];
+                    $meta->save();
                 }else{
                     $user->setMeta($key, $value);
                 }
@@ -42,7 +47,6 @@ class UserMetaController extends Controller
 
     public function delete($key )
     {
-
         $meta = UserMeta::find($key);
         if($meta){
             $key = $meta->key;

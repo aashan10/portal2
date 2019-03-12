@@ -171,14 +171,15 @@
 
                     @if($user->hasCustomMeta())
                         @foreach($user->getCustomMeta() as $meta)
-                            <div class="form-group">
-                                <button class="btn btn-sm float-right btn-outline-danger deleteMeta" data-id="{{$meta->id}}"> <i class="fa fa-window-close"></i> </button>
+                            <div class="form-group" data-custom-field="{{ json_encode($meta) }}" >
+                                <button class="btn btn-sm float-right btn-outline-danger deleteMeta" data-id="{{$meta->id}}"> <i class="fa fa-trash"></i> </button>
+                                <button class="btn btn-sm float-right btn-outline-primary editMeta mx-1" data-id="{{$meta->id}}"> <i class="fa fa-edit"></i> </button>
                                 <label for="{{ $meta->key }}">{{ ucfirst($meta->key) }}</label>
                                 <input type="text" name="{{ $meta->key }}" value="{{ $user->getMeta($meta->key)->value }}" class="form-control {{ ($errors->has($meta->key)) ? 'is-invalid' : '' }}" />
                                 @if($errors->has($meta->key))
                                     <span class="invalid-feedback">
-                                {{ $errors->first($meta->key) }}
-                            </span>
+                                        {{ $errors->first($meta->key) }}
+                                    </span>
                                 @endif()
                             </div>
                         @endforeach()
@@ -286,6 +287,50 @@
     </div>
 </div>
 
+<div class="modal fade" id="editCustomFieldModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <form data-action="{{ route('user-meta.update', ':id') }}" id="updateCustomMetaForm">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Custom Field</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" name="key" id="customFieldKeyUpdate" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select id="customFieldTypeUpdate" name="type" class="form-control" onchange="changeCustomPostType()">
+                            <option value="text">Text</option>
+                            <option value="number">Number</option>
+                            <option value="date">Date</option>
+                            <option value="time">Time</option>
+                            <option value="url">URL</option>
+                            <option value="email">Email</option>
+                            <option value="tel">Phone</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Value</label>
+                        <input type="text" id="customFieldValueUpdate" name="value" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Icon</label>
+                        <input type="text" id="customFieldIconUpdate" name="icon" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 <script>
     function appendCustomField(){
         var customFieldKey = document.getElementById('customFieldKey').value;
@@ -347,6 +392,7 @@
                 var deleteUrl  = '{{ route('user-meta.delete', ':id') }}';
                 deleteUrl=  deleteUrl.replace(':id', $(this).data('id'));
                 event.preventDefault();
+                self = $(this);
                 $.ajax({
                     url: deleteUrl,
                     method : 'DELETE',
@@ -355,11 +401,20 @@
                     },
                     success : function(response){
                         AjaxNotifier(response,200);
+                        self.parent().fadeOut(300);
+                        $('html, body').animate({scrollTop:0}, '300');
                     },
                     error : function(response){
                         AjaxNotifier(response, response.status);
+                        $('html, body').animate({scrollTop:0}, '300');
                     }
                 })
+            });
+            $('.editMeta').click(function(event){
+                event.preventDefault();
+                var custom_field = ($(this).parent().data('custom-field'));
+                $('#editCustomFieldModal').modal();
+
             });
             $('#customFieldIcon').focus(function(event){
                 event.preventDefault();
