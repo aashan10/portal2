@@ -118,4 +118,11 @@ class User extends Authenticatable
         return $this->avatar;
     }
 
+    public function posts(){
+        return $this->hasMany('App\Post')->where('type','post')->get();
+    }
+
+    public function files(){
+        return $this->hasMany('App\Post')->where('type','attachment')->get();
+    }
 }

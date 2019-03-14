@@ -15,6 +15,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        parent::__construct();
+    }
     public function index()
     {
         $users = User::paginate(100);
