@@ -1,29 +1,109 @@
 @extends('layouts.main')
 
+@push('styles')
+    <style>
+        .text-decoration-none:hover { 
+            text-decoration : none;
+        }
+        .attachments{
+            line-height: 0;
+            -webkit-column-count: 5;
+            -webkit-column-gap:   0px;
+            -moz-column-count:    5;
+            -moz-column-gap:      0px;
+            column-count:         5;
+            column-gap:           0px;
+        }
+        .attachments img {
+            width: 100% !important;
+            height: auto !important;
+        }
+        @media (max-width: 1200px) {
+            .attachments {
+            -moz-column-count:    4;
+            -webkit-column-count: 4;
+            column-count:         4;
+            }
+        }
+        @media (max-width: 1000px) {
+            .attachments {
+            -moz-column-count:    3;
+            -webkit-column-count: 3;
+            column-count:         3;
+            }
+        }
+        @media (max-width: 800px) {
+            .attachments {
+            -moz-column-count:    2;
+            -webkit-column-count: 2;
+            column-count:         2;
+            }
+        }
+        @media (max-width: 400px) {
+            .attachments {
+            -moz-column-count:    1;
+            -webkit-column-count: 1;
+            column-count:         1;
+            }
+        }
+    </style>
+@endpush()
 @section('content')
-    <div class="card">
-        <div class="card-body">
-            <h5>Welcome, {{ $user->name }}</h5>
-        </div>
-    </div>
     @foreach($posts as $post)
-        <div class="card mt-2">
+        <div class="card mb-4">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <a href="{{ route('users.show', $post->user()->id) }}">
-                            <img src="{{ $post->user()->getAvatarUrl() }}" width="30" height="30" style="border-radius:30px;"/><b>{{ $post->user()->name }}</b>
+                        <a href="{{ route('users.show', $post->user()->id) }}" class="text-decoration-none">
+                            <img src="{{ $post->user()->getAvatarUrl() }}" width="30" height="30" style="border-radius:30px;"/><b>&nbsp;&nbsp;{{ $post->user()->name }}</b>
                         </a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
+                    <br />
                         {!! $post->description !!}
                     </div>
+                    @if($post->hasAttachments())
+                        <div class="col-md-12">
+                            <h5>Post Attachment{{ (count($post->attachments()) >1 ) ? 's' : '' }}</h5>
+                            <section class="attachments">
+                                @foreach($post->attachments() as $attachment)
+                                    <a href="#" data-url="{{ $attachment->src() }}" data-name="{{ $attachment->getMeta('original_name') }}" data-attachment-meta="{{ json_encode($attachment->getMeta()) }}"  class="attachment">
+                                        @if($attachment->isImage())
+                                            <img src="{{ $attachment->src() }}"/>
+                                        @else()
+                                            <img src="{{ asset('/filetype_thumbs/'.$attachment->getExtension().'.svg') }}"/>
+                                        @endif()
+                                    </a>
+                                @endforeach()
+                            </scetion>
+                        </div>
+                    @endif()
                 </div>
             </div>
         </div>
     @endforeach()
+    <div id="attachmentsModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title float-left" id="modalFileName"></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <iframe style="position:relative;height:500px;width:100%; border:0;" id="attachmentPreview"></iframe>
+            </div>
+            <div class="modal-footer">
+                <div id="attachmentDetails">
+
+                </div>
+                <a href="#" class="btn btn-primary" id="downloadButton">Download File</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+    </div>
 @endsection()
 
 @push('sidebar-left')
@@ -181,6 +261,18 @@
 
                 }
             })
+        });
+        $('.attachment').click(function(event){
+            event.preventDefault();
+            var attachment = $(this).data('url');
+            var attachment_meta = $(this).data('attachment-meta');
+            $('#attachmentPreview').attr('src', attachment);
+            $('#downloadButton').attr('href', attachment);
+            $('#modalFileName').text($(this).data('name'));
+            attachment_meta.map(function(element){
+                $('#attachmentDetails').append("<span class='badge badge-primary'>"+element.value+"</span>");
+            });
+            $('#attachmentsModal').modal();
         });
     </script>
 @endpush()

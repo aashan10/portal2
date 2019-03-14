@@ -113,9 +113,12 @@ class User extends Authenticatable
 
     public function getAvatarUrl(){
         if($this->avatar == null){
-            $this->avatar = 'https://avatars.dicebear.com/v2/avataaars/'.md5(microtime().$this->email).'.svg';
+            return $this->avatar = 'https://avatars.dicebear.com/v2/avataaars/'.md5(microtime().$this->email).'.svg';
+        }elseif(strpos($this->avatar, 'https://avatars.dicebear.com/v2/avataaars') !== false){
+            return $this->avatar;
+        }else{
+            return asset('/storage/profile_pictures/'.$this->avatar);
         }
-        return $this->avatar;
     }
 
     public function posts(){

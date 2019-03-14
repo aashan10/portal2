@@ -152,7 +152,10 @@ class UserController extends Controller
     public function changeAvatar(Request $request){
         if($request->file('avatar')){
             $user = Auth::user();
-            //$request->file()->store()
+            $filename = md5(microtime().$user->email).'.'.$request->file('avatar')->extension();
+            $request->file('avatar')->storeAs('public/profile_pictures', $filename);
+            $user->avatar = $filename;
+            $user->save();
             return Response::success('Profile Picture updated successfully!');
         }
         return Response::errorUnprocessibleEntity('Please select an image file to upload!');
