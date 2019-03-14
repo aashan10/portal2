@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 
-Route::group([ 'middleware' => 'web'],function(){
+Route::group([ 'middleware' => ['web','active']],function(){
     Auth::routes();
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('/users','UserController');
@@ -31,4 +31,6 @@ Route::group([ 'middleware' => 'web'],function(){
 
     Route::post('/user/change-password', 'UserController@changePassword')->name('change-password');
     Route::post('/user/change-avatar', 'UserController@changeAvatar')->name('change-avatar');
+    
 });
+Route::get('/user-under-review', 'UserController@userUnderReview')->name('under-review');

@@ -160,4 +160,10 @@ class UserController extends Controller
         }
         return Response::errorUnprocessibleEntity('Please select an image file to upload!');
     }
+    public function userUnderReview(){
+        if(Auth::user()->status == 'active'){
+            return redirect('/home');
+        }
+        return view('users.pending');
+    }
 }
