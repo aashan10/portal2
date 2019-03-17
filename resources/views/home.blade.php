@@ -69,7 +69,7 @@
                             <h5>Post Attachment{{ (count($post->attachments()) >1 ) ? 's' : '' }}</h5>
                             <section class="attachments">
                                 @foreach($post->attachments() as $attachment)
-                                    <a href="#" data-url="{{ $attachment->src() }}" data-name="{{ $attachment->getMeta('original_name') }}" data-attachment-meta="{{ json_encode($attachment->getMeta()) }}"  class="attachment">
+                                    <a href="#" data-url="{{ $attachment->src() }}" data-name="{{ $attachment->getMeta('original_name') }}" data-attachment-meta="{{ json_encode($attachment->getMeta()) }}"  class="attachment" style="position:relative;float:left">
                                         @if($attachment->isImage())
                                             <img src="{{ $attachment->src() }}"/>
                                         @else()

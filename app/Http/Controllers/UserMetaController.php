@@ -17,7 +17,6 @@ class UserMetaController extends Controller
     public function store(Request $request, User $user = null)
     {
         ($user == null) ? $user =  Auth::user() : null ;
-        dd($request->all());
         foreach($request->all() as $key =>  $value){
             $meta = $user->setMeta($key, $value);
             $meta->type = in_array($value['type'], ['text','number','email','tel','url','date','time']) ? $value['type'] : 'text';
@@ -32,7 +31,7 @@ class UserMetaController extends Controller
         ($user == null) ? $user = Auth::user() : '' ;
         $metas = $request->except(['_token','_method']);
         foreach ($metas as $key => $value){
-            if($key !== null && $value !== null){
+            if($key !== null){
                 if(is_array($value)){
                     $meta = $user->setMeta($key, $value['value']);
                     $meta->type = in_array($value['type'], ['text','number','email','tel','url','date','time']) ? $value['type'] : 'text';
