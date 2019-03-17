@@ -29,6 +29,12 @@ Route::group([ 'middleware' => ['web','active']],function(){
         Route::delete('/delete/{id}','UserMetaController@delete')->name('user-meta.delete');
     });
 
+    Route::prefix('/admin') ->group(function (){
+
+        Route::get('/','AdminController@index')->name('admin.index');
+
+
+    });
     Route::post('/user/change-password', 'UserController@changePassword')->name('change-password');
     Route::post('/user/change-avatar', 'UserController@changeAvatar')->name('change-avatar');
     
