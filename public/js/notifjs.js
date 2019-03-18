@@ -25,4 +25,8 @@ var AjaxNotifier = function(response, statuscode){
     alerter.innerText = response.message;
     alerter.appendChild(button);
     $('#notifications').append(alerter);
+    var interval = setInterval(function(){
+        clearInterval(interval);
+        $(alerter).fadeOut(300);
+    },10000);
 }

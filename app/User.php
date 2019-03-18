@@ -6,7 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
-
+use App\Post;
 class User extends Authenticatable
 {
     use Notifiable;
@@ -122,10 +122,10 @@ class User extends Authenticatable
     }
 
     public function posts(){
-        return $this->hasMany('App\Post')->where('type','post')->get();
+        return $this->hasMany('App\Post')->where('post_type','post')->get();
     }
 
     public function files(){
-        return $this->hasMany('App\Post')->where('type','attachment')->get();
+        return $this->hasMany('App\Post')->where('post_type','attachment')->get();
     }
 }

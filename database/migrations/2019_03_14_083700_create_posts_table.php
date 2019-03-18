@@ -15,7 +15,7 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('post_author_id');
+            $table->unsignedInteger('user_id');
             $table->unsignedInteger('parent_id')->nullable();
             $table->longText('post_content');
             $table->text('post_title');
@@ -27,7 +27,7 @@ class CreatePostsTable extends Migration
             $table->string('comment_status');
             $table->bigInteger('comment_count');
             $table->enum('post_status',['published','draft','trashed']);
-            $table->foreign('post_author_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('parent_id')->references('id')->on('posts')->onDelete('cascade');
             $table->timestamps();
         });

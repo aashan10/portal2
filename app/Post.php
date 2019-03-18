@@ -31,14 +31,14 @@ class Post extends Model
     }
 
     public static function posts(){
-        return static::where('type', 'post')->get();
+        return static::where('post_type', 'post')->get();
     }
     public function hasAttachments(){
         return (count($this->attachments()) > 0) ? true : false;
     }
 
     public function src(){
-        if($this->type == 'attachment'){
+        if($this->post_type == 'attachment'){
             return asset('storage/profile_pictures/'.$this->getMeta('src'));
         }
         return null;
