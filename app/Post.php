@@ -27,11 +27,11 @@ class Post extends Model
     }
 
     public function attachments(){
-        return $this->hasMany('App\Post', 'parent_id', 'id')->where('type','attachment')->get();
+        return $this->hasMany('App\Post', 'parent_id', 'id')->where('post_type','attachment')->get();
     }
 
     public static function posts(){
-        return static::where('type', 'post')->get();
+        return static::where('post_type', 'post')->get();
     }
     public function hasAttachments(){
         return (count($this->attachments()) > 0) ? true : false;
