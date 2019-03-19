@@ -38,7 +38,7 @@ class Post extends Model
     }
 
     public function src(){
-        if($this->type == 'attachment'){
+        if($this->post_type == 'attachment'){
             return asset('storage/profile_pictures/'.$this->getMeta('src'));
         }
         return null;
