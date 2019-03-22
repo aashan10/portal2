@@ -156,7 +156,7 @@ class UserController extends Controller
             $request->file('avatar')->storeAs('public/profile_pictures', $filename);
             $user->avatar = $filename;
             $user->save();
-            return Response::success('Profile Picture updated successfully!');
+            return Response::successWithData('Profile Picture updated successfully!', asset('/storage/profile_pictures/'.$user->avatar));
         }
         return Response::errorUnprocessibleEntity('Please select an image file to upload!');
     }

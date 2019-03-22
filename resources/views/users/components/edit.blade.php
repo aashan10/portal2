@@ -472,7 +472,11 @@
                     processData : false,
                     cache : false,
                     success : function(response){
-                        
+                        var profile_pictures = $('.profile-avatar');
+                        profile_pictures.map(function(key, element){
+                            $(element).attr('src', response.data);
+                        });
+                        AjaxNotifier(response);
                     },
                     error : function(response){
                         

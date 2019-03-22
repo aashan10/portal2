@@ -20,7 +20,7 @@ Route::group([ 'middleware' => ['web','active']],function(){
     Auth::routes();
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('/users','UserController');
-
+    Route::post('/post','PostController@store')->name('post.post');
 
 
     Route::prefix('/user-meta')->group(function(){

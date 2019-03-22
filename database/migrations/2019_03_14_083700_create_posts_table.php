@@ -15,18 +15,20 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('post_author_id');
-            $table->longText('post_content');
-            $table->text('post_title');
-            $table->text('post_except');
-            $table->longText('post_content_filtered');
-            $table->string('post_type');
-            $table->string('post_mime_type');
-            $table->text('post_slug');
-            $table->string('comment_status');
-            $table->bigInteger('comment_count');
-            $table->enum('post_status',['published','draft','trashed']);
-            $table->foreign('post_author_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('parent_id')->nullable();
+            $table->longText('post_content')->nullable();
+            $table->text('post_title')->nullable();
+            $table->text('post_except')->nullable();
+            $table->longText('post_content_filtered')->nullable();
+            $table->string('post_type')->nullable();
+            $table->string('post_mime_type')->nullable();
+            $table->text('post_slug')->nullable();
+            $table->string('comment_status')->nullable();
+            $table->bigInteger('comment_count')->nullable();
+            $table->enum('post_status',['published','draft','trashed'])->default('draft');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('parent_id')->references('id')->on('posts')->onDelete('cascade');
             $table->timestamps();
         });
     }

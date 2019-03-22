@@ -3,9 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
+    use SoftDeletes;
+
+    protected $dates =['deleted_at'];
+
+    protected $fillable = [ 'post_title', 'post_content', 'user_id' ];
     public function user(){
         return $this->belongsTo('App\User')->first();
     }
@@ -27,18 +33,18 @@ class Post extends Model
     }
 
     public function attachments(){
-        return $this->hasMany('App\Post', 'parent_id', 'id')->where('type','attachment')->get();
+        return $this->hasMany('App\Post', 'parent_id', 'id')->where('post_type','attachment')->get();
     }
 
     public static function posts(){
-        return static::where('type', 'post')->get();
+        return static::where('post_type', 'post')->get();
     }
     public function hasAttachments(){
         return (count($this->attachments()) > 0) ? true : false;
     }
 
     public function src(){
-        if($this->type == 'attachment'){
+        if($this->post_type == 'attachment'){
             return asset('storage/profile_pictures/'.$this->getMeta('src'));
         }
         return null;
