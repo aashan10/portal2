@@ -34,6 +34,11 @@ class PermissionsSeeder extends Seeder
             'guard_name' => 'web'
         ]);
 
+        DB::table('permissions')->insert([
+            'name' => 'reset_user_password',
+            'guard_name' => 'web'
+        ]);
+
 
         // Module Permissions
 
@@ -44,10 +49,6 @@ class PermissionsSeeder extends Seeder
             ],
             1 => [
                 'name' => 'deactivate_module',
-                'guard_name' => 'web'
-            ],
-            2 => [
-                'name' => '',
                 'guard_name' => 'web'
             ]
         ]);
@@ -77,6 +78,10 @@ class PermissionsSeeder extends Seeder
             ],
             5 => [
                 'name' => 'unblock_institute',
+                'guard_name' => 'web'
+            ],
+            6 => [
+                'name' => 'revoke_institute_verification',
                 'guard_name' => 'web'
             ]
         ]);
@@ -132,6 +137,10 @@ class PermissionsSeeder extends Seeder
             ],
             5 => [
                 'name' => 'view_post',
+                'guard_name' => 'web'
+            ],
+            6 => [
+                'name' => 'approve_post',
                 'guard_name' => 'web'
             ]
         ]);
