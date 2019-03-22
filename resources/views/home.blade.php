@@ -49,6 +49,7 @@
     </style>
 @endpush()
 @section('content')
+    @include('post.components.create')
     @foreach($posts as $post)
         <div class="card mb-4">
             <div class="card-body">
