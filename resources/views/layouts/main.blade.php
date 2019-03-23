@@ -81,7 +81,6 @@
                 </div>
                 <div class="col-md-6">
                     @include('components.notifications')
-                    @include('users.post')
                     @yield('content')
                 </div>
                 <div class="col-md-3">

@@ -3,7 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Jenssegers\Mongodb\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Post extends Model
 {
@@ -14,6 +15,10 @@ class Post extends Model
     protected $fillable = [ 'post_title', 'post_content', 'user_id' ];
     public function user(){
         return $this->belongsTo('App\User')->first();
+    }
+
+    public function vote(){
+        return $this->hasMany('App\Vote');
     }
 
     public function meta(){
@@ -73,5 +78,11 @@ class Post extends Model
         }
         $extension = explode('.',$src);
         return $extension[1];
+    }
+    public function getVotes(){
+        return $this->hasMany('App\Vote', 'post_id', 'id')->get();
+    }
+    public function getVoteCount(){
+        return count($this->getVotes());
     }
 }
