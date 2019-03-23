@@ -1,0 +1,14 @@
+{
+    "name": "CollegeAdmin",
+    "alias": "collegeadmin",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\CollegeAdmin\\Providers\\CollegeAdminServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

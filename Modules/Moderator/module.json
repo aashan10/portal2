@@ -1,0 +1,14 @@
+{
+    "name": "Moderator",
+    "alias": "moderator",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Moderator\\Providers\\ModeratorServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

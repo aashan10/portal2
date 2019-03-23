@@ -1,0 +1,25 @@
+{
+    "name": "nwidart/collegeadmin",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\CollegeAdmin\\Providers\\CollegeAdminServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\CollegeAdmin\\": ""
+        }
+    }
+}

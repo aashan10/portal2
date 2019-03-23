@@ -1,0 +1,14 @@
+{
+    "name": "Teacher",
+    "alias": "teacher",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Teacher\\Providers\\TeacherServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

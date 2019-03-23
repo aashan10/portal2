@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Jenssegers\Mongodb\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
@@ -12,6 +12,7 @@ class Post extends Model
     protected $dates =['deleted_at'];
 
     protected $fillable = [ 'post_title', 'post_content', 'user_id' ];
+    
     public function user(){
         return $this->belongsTo('App\User')->first();
     }
