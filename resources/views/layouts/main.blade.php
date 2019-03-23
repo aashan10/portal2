@@ -81,10 +81,7 @@
                 </div>
                 <div class="col-md-6">
                     @include('components.notifications')
-<<<<<<< HEAD
                         {{-- @include('users.post') --}}
-=======
->>>>>>> 4a8d5c0f8f7d14797d6117da858cbca777d516f3
                     @yield('content')
                 </div>
                 <div class="col-md-3">
