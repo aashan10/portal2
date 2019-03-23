@@ -17,6 +17,10 @@ class Post extends Model
         return $this->belongsTo('App\User')->first();
     }
 
+    public function vote(){
+        return $this->hasMany('App\Vote');
+    }
+
     public function meta(){
         return $this->hasMany('App\PostMeta')->get();
     }
@@ -74,5 +78,11 @@ class Post extends Model
         }
         $extension = explode('.',$src);
         return $extension[1];
+    }
+    public function getVotes(){
+        return $this->hasMany('App\Vote', 'post_id', 'id')->get();
+    }
+    public function getVoteCount(){
+        return count($this->getVotes());
     }
 }
