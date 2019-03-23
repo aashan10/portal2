@@ -128,4 +128,7 @@ class User extends Authenticatable
     public function files(){
         return $this->hasMany('App\Post')->where('post_type','attachment')->get();
     }
+    public function getAvatarAndName(){
+        return "<a href='". route('users.show', $this->id) ."' style='text-decoration:none'><img src='". $this->getAvatarUrl() ."' style='height:30px;width:30px;border-radius:30px;' /> <strong>". $this->name."</strong></a>";
+    }
 }

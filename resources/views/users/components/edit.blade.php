@@ -47,7 +47,7 @@
                             </div>
                         @endif()
 
-                        @if(Auth::user()->hasPermissionTo('assign_status'))
+                        @if(Auth::user()->hasPermissionTo('assign_user_status'))
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="role">Status</label>

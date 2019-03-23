@@ -7,7 +7,35 @@ use App\Helper\Response;
 use App\Post;
 class PostsController extends Controller
 {
-    public function createFromTitle(Request $request){
-        return Response::successWithData('Post drafted', ['post' => Post::find(rand(0,count(Post::all())))]);
+    public function createFromTitle(Request $request, Post $post){
+        $post->post_title = $request->title;
+        $post->user_id = auth()->id();
+        $post->post_status = 'draft';
+        $post->save();
+        return Response::successWithData('Post drafted', [
+            'update_url' => route('post.update', $post->id)
+        ]);
+    }
+
+    public function show($id){
+        return $id;
+    }
+
+    public function update(Request $request, $id){
+        $request = $request->except(['_token', '_method']);
+        $post = Post::findOrFail($id);
+        $post->post_status = 'published';
+        $post->update($request);
+        return Response::successWithData('Post published', $post);
+    }
+
+    public function storeComment(Request $request, Post $post, $id){
+        $post->post_content = $request->comment_status;
+        $post->post_type = 'comment';
+        $post->post_status = 'published';
+        $post->user_id = auth()->id();
+        $post->parent_id = $id;
+        $post->save();
+        return Response::successWithData('Comment Published',$post->id);
     }
 }

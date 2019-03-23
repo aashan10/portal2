@@ -50,41 +50,7 @@
 @endpush()
 @section('content')
     @include('post.components.create')
-    @foreach($posts as $post)
-        <div class="card mb-4">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <a href="{{ route('users.show', $post->user()->id) }}" class="text-decoration-none">
-                            <img src="{{ $post->user()->getAvatarUrl() }}" width="30" height="30" style="border-radius:30px;"/><b>&nbsp;&nbsp;{{ $post->user()->name }}</b>
-                        </a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                    <br />
-                        {!! $post->description !!}
-                    </div>
-                    @if($post->hasAttachments())
-                        <div class="col-md-12">
-                            <h5>Post Attachment{{ (count($post->attachments()) >1 ) ? 's' : '' }}</h5>
-                            <section class="attachments">
-                                @foreach($post->attachments() as $attachment)
-                                    <a href="#" data-url="{{ $attachment->src() }}" data-name="{{ $attachment->getMeta('original_name') }}" data-attachment-meta="{{ json_encode($attachment->getMeta()) }}"  class="attachment" style="position:relative;float:left">
-                                        @if($attachment->isImage())
-                                            <img src="{{ $attachment->src() }}"/>
-                                        @else()
-                                            <img src="{{ asset('/filetype_thumbs/'.$attachment->getExtension().'.svg') }}"/>
-                                        @endif()
-                                    </a>
-                                @endforeach()
-                            </scetion>
-                        </div>
-                    @endif()
-                </div>
-            </div>
-        </div>
-    @endforeach()
+    @include('post.show')
     <div id="attachmentsModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">

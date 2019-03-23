@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class BaseController extends Controller
 {
-    protected $data = [];
+    public $data = [];
     
     public function __construct(){
         $this->middleware(function($request, $next){

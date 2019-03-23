@@ -38,9 +38,10 @@ Route::group([ 'middleware' => ['web','active']],function(){
     Route::post('/user/change-password', 'UserController@changePassword')->name('change-password');
     Route::post('/user/change-avatar', 'UserController@changeAvatar')->name('change-avatar');
 
+    Route::resource('/post', 'PostsController');
     Route::prefix('/post')->name('post.')->group(function(){
-        Route::resource('/', 'PostsController');
         Route::post('/create-from-title', 'PostsController@createFromTitle')->name('createFromTitle');
+        Route::post('/post_comment/{post_id}','PostsController@storeComment')->name('comment');
     });
     
 });
