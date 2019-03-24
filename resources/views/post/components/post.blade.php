@@ -54,11 +54,16 @@
             <div class="col-md-12">
             <form action="{{route('post.comment',['post_id' => $post->id])}}" method="POST">
                 @csrf()
-                <label for="Comment">Comments</label>
-                <input type="text" class="form-control" name="comment_status">
-                <button class="btn btn-sm btn-primary float-right mt-3">Post</button>
+                <input type="text" class="form-control" name="comment_status" placeholder="Write a Comment">
+                {{--<button class="btn btn-sm btn-primary float-right mt-3">Post</button>--}}
             </form>
             </div>
+        </div>
+        <div class="row">
+            <label for="Comment" class="mx-2 mt-2">Comments</label>
+            @foreach($comments as $comment)
+            @include('post.components.comment',['$comment' => $comment])
+            @endforeach
         </div>
     </div>
 </div>

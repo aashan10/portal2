@@ -1,5 +1,5 @@
 @foreach($posts as $post)
-    @include('post.components.post', ['post' => $post])
+    @include('post.components.post', ['post' => $post, 'comments' => $comments])
 @endforeach()
 @push('styles')
     <style>

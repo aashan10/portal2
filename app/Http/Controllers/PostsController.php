@@ -25,6 +25,7 @@ class PostsController extends Controller
     public function update(Request $request, $id){
         $request = $request->except(['_token', '_method']);
         $post = Post::findOrFail($id);
+        $post->post_type = 'post';
         $post->post_status = 'published';
         $post->update($request);
         return Response::successWithData('Post published', $post);
