@@ -1,10 +1,6 @@
 @foreach($posts as $post)
-    @include('post.components.post', ['post' => $post])
+    @include('post.components.post', ['post' => $post, 'comments' => $comments])
 @endforeach()
-
-@foreach($comments as $comment)
-    @include('post.components.comment',['comment' => $comment])
-@endforeach
 @push('styles')
     <style>
         .dropdown-toggle::after {
