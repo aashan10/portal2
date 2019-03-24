@@ -85,4 +85,8 @@ class Post extends Model
     public function getVoteCount(){
         return count($this->getVotes());
     }
+
+    public static function comments(){
+        return static::where('post_type', 'comment')->get();
+    }
 }
