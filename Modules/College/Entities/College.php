@@ -10,7 +10,6 @@ class College extends Model
     {
         parent::__construct();
     }
-    protected $fillable = [];
     public function getName(){
         return $this->name;
     }
