@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Helper\Response;
 use App\Post;
+use App\Vote;
 class PostsController extends Controller
 {
     public function createFromTitle(Request $request, Post $post){
@@ -51,13 +52,16 @@ class PostsController extends Controller
             $vote->type = 'upvote';
             $vote->save();
         }
-        return Response::successWithData('Upvoted', $vote);
+        return Response::successWithData('Upvoted', [
+            'votes_count' => $post->countVotes()
+        ]);
     }
-    public function hasVoted($post){
-        $vote = Vote::where('user_id', auth()->id()->where('post_id', $post)->first());
+    public function hasVoted(Post $post){
+        $vote = Vote::where('user_id', auth()->id())->where('post_id', $post->id)->first();
         return ( $vote ) ? $vote : false;
     }
     public function downvote($post){
+        $post = Post::findOrFail($post);
         if($this->hasVoted($post) !== false){
             $vote = $this->hasVoted($post);
             $vote->type = 'downvote';
@@ -69,6 +73,8 @@ class PostsController extends Controller
             $vote->type = 'downvote';
             $vote->save();
         }
-        return Response::successWithData('Upvoted', $vote);
+        return Response::successWithData('Downvoted', [
+            'votes_count' => $post->countVotes()
+        ]);
     }
 }

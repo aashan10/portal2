@@ -17,6 +17,7 @@ class CreateVotesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('post_id');
             $table->unsignedInteger('user_id');
+            $table->enum('type', ['upvote','downvote'])->default('upvote');
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

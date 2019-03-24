@@ -82,7 +82,16 @@ class Post extends Model
     public function getVotes(){
         return $this->hasMany('App\Vote', 'post_id', 'id')->get();
     }
+    public function upvotes(){
+        return $this->hasMany('App\Vote', 'post_id', 'id')->where('type', 'upvote')->get();
+    }
+    public function downvotes(){
+        return $this->hasMany('App\Vote', 'post_id', 'id')->where('type', 'downvote')->get();
+    }
     public function getVoteCount(){
         return count($this->getVotes());
+    }
+    public function countVotes(){
+        return count($this->upvotes()) - count($this->downvotes());
     }
 }

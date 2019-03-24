@@ -42,8 +42,8 @@ Route::group([ 'middleware' => ['web','active']],function(){
     Route::prefix('/post')->name('post.')->group(function(){
         Route::post('/create-from-title', 'PostsController@createFromTitle')->name('createFromTitle');
         Route::post('/post_comment/{post_id}','PostsController@storeComment')->name('comment');
-        Route::post('/{id}/upvote','PostsController@upvotePost')->name('upvote');
-        Route::post('/{id}/downvote','PostsController@downvotePost')->name('downvote');
+        Route::post('/{id}/upvote','PostsController@upvote')->name('upvote');
+        Route::post('/{id}/downvote','PostsController@downvote')->name('downvote');
     });
     
 });

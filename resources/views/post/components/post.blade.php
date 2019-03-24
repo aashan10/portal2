@@ -1,9 +1,9 @@
 <div class="card mb-3">
     <div class="card-body">
         <div class="row">
-            <div class="col">
-            <h4>{{$post->post_title}}</h4>
-            </div>
+            <div class="col-md-6">
+                    {!! $post->user()->getAvatarAndName() !!}
+                </div>
             <div class="col-md-6">
                     <div class="dropdown">
                         <button class="btn px-0 py-0 dropdown-toggle float-right" id="postActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -30,23 +30,24 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-2 py-3">
+                <div class="btn-group-vertical float-left" data-id="{{ $post->id }}" role="group" >
+                    <button type="button" class="btn btn-outline-primary upvoteButton btn-sm px-0">
+                        <i class="fa fa-arrow-up"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary downvoteButton btn-sm px-0">
+                        <i class="fa fa-arrow-down"></i>
+                    </button>
+                    <button class="votesCount px-2 py-2 btn bg-primary text-white btn-sm px-0">{{ $post->countVotes() }} Votes</button>
+                </div>
+            </div>
+            <div class="col-md-10 pt-2">
+                <h4>{{$post->post_title}}</h4>
                 @if($post->post_content === null)
                     <p style="color:gray">This Post has no any Content</p>
                 @else
                     {!! $post->post_content !!}  
                 @endif    
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                {!! $post->user()->getAvatarAndName() !!}
-            </div>
-            <div class="col-md-6">
-                <div class="btn-group float-right" role="group" >
-                    <button type="button" class="btn btn-primary px-2 py-0">Upvote</button>
-                    <button type="button" class="btn btn-outline-primary px-2 py-0">Downvote</button>
-                </div>
             </div>
         </div>
         <div class="row mt-3" id="commentBox">
