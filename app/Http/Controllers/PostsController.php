@@ -39,4 +39,37 @@ class PostsController extends Controller
         $post->save();
         return Response::successWithData('Comment Published',$post->id);
     }
+    public function upvote($post){
+        $post = Post::findOrFail($post);
+        if($this->hasVoted($post) !== false){
+            $vote = $this->hasVoted($post);
+            $vote->type = 'upvote';
+            $vote->save();
+        }else{
+            $vote = new Vote();
+            $vote->user_id = auth()->id();
+            $vote->post_id = $post->id;
+            $vote->type = 'upvote';
+            $vote->save();
+        }
+        return Response::successWithData('Upvoted', $vote);
+    }
+    public function hasVoted($post){
+        $vote = Vote::where('user_id', auth()->id()->where('post_id', $post)->first());
+        return ( $vote ) ? $vote : false;
+    }
+    public function downvote($post){
+        if($this->hasVoted($post) !== false){
+            $vote = $this->hasVoted($post);
+            $vote->type = 'downvote';
+            $vote->save();
+        }else{
+            $vote = new Vote();
+            $vote->user_id = auth()->id();
+            $vote->post_id = $post->id;
+            $vote->type = 'downvote';
+            $vote->save();
+        }
+        return Response::successWithData('Upvoted', $vote);
+    }
 }

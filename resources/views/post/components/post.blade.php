@@ -42,6 +42,12 @@
             <div class="col-md-6">
                 {!! $post->user()->getAvatarAndName() !!}
             </div>
+            <div class="col-md-6">
+                <div class="btn-group float-right" role="group" >
+                    <button type="button" class="btn btn-primary px-2 py-0">Upvote</button>
+                    <button type="button" class="btn btn-outline-primary px-2 py-0">Downvote</button>
+                </div>
+            </div>
         </div>
         <div class="row mt-3" id="commentBox">
             <div class="col-md-12">
