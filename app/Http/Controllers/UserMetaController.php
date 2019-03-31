@@ -71,4 +71,8 @@ class UserMetaController extends Controller
         }
         return Response::errorContentNotFound();
     }
+
+    public function onBoarding(Request $request){
+        dd($request);
+    }
 }

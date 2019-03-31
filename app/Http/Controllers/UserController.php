@@ -162,8 +162,13 @@ class UserController extends Controller
     }
     public function userUnderReview(){
         if(Auth::user()->status == 'active'){
-            return redirect('/home');
+           return redirect()->route('user.onBoarding');
+//            return redirect('/home');
         }
         return view('users.pending');
+    }
+
+    public function onBoarding(){
+        return view('users.onBoarding');
     }
 }

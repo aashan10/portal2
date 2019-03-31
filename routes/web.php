@@ -21,7 +21,8 @@ Route::group([ 'middleware' => ['web','active']],function(){
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('/users','UserController');
     Route::post('/post','PostController@store')->name('post.post');
-
+    Route::get('/onBoarding','UserController@onBoarding')->name('user.onBoarding');
+    Route::post('/onBoarding','UserMetaController@onBoarding')->name('user.meta.onBoarding');
 
     Route::prefix('/user-meta')->group(function(){
         Route::patch('/update','UserMetaController@update')->name('user-meta.update');
