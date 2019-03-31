@@ -40,7 +40,7 @@ class HomeController extends Controller
         $this->posts = Post::posts();
         $this->postsCount = count($this->user->posts());
         $this->filesCount = count($this->user->files());
-        $this->comments = Post::comments();
+        // $this->comments = Post::comments(1);
         return view('home', $this->data);
     }
 }

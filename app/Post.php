@@ -92,8 +92,8 @@ class Post extends Model
         return count($this->getVotes());
     }
 
-    public static  function comments($id){
-        return static::where('post_type', 'comment')->where('parent_id',$id)->get();
+    public function comments(){
+        return $this->where('post_type', 'comment')->where('parent_id',$this->id)->get();
     }
     public function countVotes(){
         return count($this->upvotes()) - count($this->downvotes());

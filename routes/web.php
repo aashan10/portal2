@@ -45,6 +45,5 @@ Route::group([ 'middleware' => ['web','active']],function(){
         Route::post('/{id}/upvote','PostsController@upvote')->name('upvote');
         Route::post('/{id}/downvote','PostsController@downvote')->name('downvote');
     });
-    
 });
 Route::get('/user-under-review', 'UserController@userUnderReview')->name('under-review');

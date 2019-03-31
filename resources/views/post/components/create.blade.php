@@ -24,8 +24,8 @@
         tinymce.init({
             menubar:false,
             selector: '#postContent',
-            plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help',
-            toolbar: 'formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment'
+            plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars mediapicker fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help',
+            toolbar: 'bold italic underline permanentpen formatpainter | link codesample image | mediapicker | numlist '
         });
         $('#postTitle').change(function(event){
             event.preventDefault();
@@ -60,4 +60,11 @@
 
     </script>
 
+@endpush()
+@push('styles')
+    <style>
+        .tox-statusbar{
+            display : none !important;
+        }
+    </style>
 @endpush()

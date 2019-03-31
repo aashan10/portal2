@@ -131,4 +131,11 @@ class User extends Authenticatable
     public function getAvatarAndName(){
         return "<a href='". route('users.show', $this->id) ."' style='text-decoration:none'><img src='". $this->getAvatarUrl() ."' style='height:30px;width:30px;border-radius:30px;' /> <strong>". $this->name."</strong></a>";
     }
+
+    public function hasUpvotedPost(Post $post){
+        return (Vote::where('user_id', $this->id)->where( 'post_id', $post->id)->where('type', 'upvote')->first()) ? true : false;
+    }
+    public function hasDownvotedPost(Post $post){
+        return (Vote::where('user_id', $this->id)->where( 'post_id', $post->id)->where('type', 'downvote')->first()) ? true : false;
+    }
 }

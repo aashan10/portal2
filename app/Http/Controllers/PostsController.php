@@ -54,7 +54,8 @@ class PostsController extends Controller
             $vote->save();
         }
         return Response::successWithData('Upvoted', [
-            'votes_count' => $post->countVotes()
+            'votes_count' => $post->countVotes(),
+            'type' => 'upvote'
         ]);
     }
     public function hasVoted(Post $post){
@@ -75,7 +76,8 @@ class PostsController extends Controller
             $vote->save();
         }
         return Response::successWithData('Downvoted', [
-            'votes_count' => $post->countVotes()
+            'votes_count' => $post->countVotes(),
+            'type' => 'downvote'
         ]);
     }
 }

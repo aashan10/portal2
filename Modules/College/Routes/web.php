@@ -11,11 +11,11 @@
 |
 */
 
-Route::prefix('college')->name('college.')->middleware(function($request, $next){
-    if(Auth::user()->hasRole('admin')){
+Route::prefix('/admin')->name('admin.')->middleware('auth')->middleware(function($request, $next){
+    if(auth()->user()->hasRole('admin')){
         return $next($request);
     }
     return view('errors.unauthorized')->with('message','You are not authorized to view this page!');
-})->group(function() {
-    Route::resource('/', 'CollegeController@index');
+})->group(function(){
+    Route::resource('/college','CollegeController');
 });
