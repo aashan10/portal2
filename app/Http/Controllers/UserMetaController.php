@@ -72,7 +72,14 @@ class UserMetaController extends Controller
         return Response::errorContentNotFound();
     }
 
-    public function onBoarding(Request $request){
-        dd($request);
+    public function onBoarding(Request $request, User $user = null){
+
+        ($user == null) ? $user =  Auth::user() : null ;
+        foreach($request->except(['_token','_method']) as $key =>  $value){
+            $meta = $user->setMeta($key, $value);
+            $meta->type = 'text';
+            $meta->save();
+        }
+        return redirect('/home');
     }
 }

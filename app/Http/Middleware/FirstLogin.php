@@ -3,8 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Auth;
-class Verified
+use Illuminate\Support\Facades\Auth;
+
+class FirstLogin
 {
     /**
      * Handle an incoming request.
@@ -15,10 +16,9 @@ class Verified
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user() && Auth::user()->status !== 'active'){
-            return redirect()->route('under-review');
+        if(Auth::user() && !Auth::user()->metaExists('College')){
+            return redirect()->route('user.onBoarding');
         }
-
         return $next($request);
     }
 }
