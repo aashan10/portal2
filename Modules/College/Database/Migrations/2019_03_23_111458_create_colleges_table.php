@@ -15,11 +15,12 @@ class CreateCollegesTable extends Migration
     {
         Schema::create('colleges', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('title');
             $table->text('description');
             $table->string('address');
             $table->string('contact');
-            $table->string('banner_image')->nullable();
+            $table->string('email');
+            $table->string('banner')->nullable();
             $table->timestamps();
         });
     }

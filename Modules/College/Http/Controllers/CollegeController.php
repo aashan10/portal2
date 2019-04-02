@@ -18,8 +18,8 @@ class CollegeController extends AdminBaseController
             'address' => 'string|required',
             'contact' => 'string|required',
             'email' => 'email|required',
-            'banner' => 'file|required',
-            'description' => 'text|required'
+            'banner' => 'nullable|sometimes|file|mimes:jpg,jpeg,png,gif,bmp',
+            'description' => 'string|required'
         ]);
 
         $college = new College();
@@ -42,8 +42,28 @@ class CollegeController extends AdminBaseController
         return $college;
     }
 
-    public function update(Request $request){
-
+    public function update(Request $request, $id){
+        $college = College::findOrFail($id);
+        $request->validate([
+            'title' => 'string|required',
+            'address' => 'string|required',
+            'contact' => 'string|required',
+            'email' => 'email|required',
+            'banner' => 'nullable|sometimes|file|mimes:jpg,jpeg,png,gif,bmp',
+            'description' => 'string|required'
+        ]);
+        $college->title = $request->title;
+        $college->address = $request->address;
+        $college->contact = $request->contact;
+        $college->email = $request->email;
+        if($request->hasFile('banner')){
+            $filename =  bcrypt($request->file('banner')->getClientOriginalName().microtime()).$request->file('banner')->getClientOriginalExtension();
+            $request->file('banner')->storeAs('public/college_banners/',$filename);
+            $college->banner = $filename;
+        }
+        $college->description = $request->description;
+        $college->save();
+        return redirect()->back()->with('success', 'College added successfully!');
     }
 
     public function edit($id){
