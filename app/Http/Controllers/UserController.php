@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Helper\Response;
 
@@ -161,9 +161,12 @@ class UserController extends Controller
         return Response::errorUnprocessibleEntity('Please select an image file to upload!');
     }
     public function userUnderReview(){
-        if(Auth::user()->status == 'active'){
-            return redirect('/home');
+        if(Auth::user()->status == 'active') {
+            return view('users.pending');
         }
-        return view('users.pending');
+    }
+
+    public function onBoarding(){
+        return view('users.onBoarding');
     }
 }

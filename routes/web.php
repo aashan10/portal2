@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 
-Route::group([ 'middleware' => ['web','active']],function(){
+Route::group([ 'middleware' => ['web','active','welcome']],function(){
     Auth::routes();
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('/users','UserController');
@@ -47,3 +47,5 @@ Route::group([ 'middleware' => ['web','active']],function(){
     });
 });
 Route::get('/user-under-review', 'UserController@userUnderReview')->name('under-review');
+Route::get('/onBoarding','UserController@onBoarding')->name('user.onBoarding');
+Route::patch('/onBoarding','UserMetaController@onBoarding')->name('user.meta.onBoarding');
