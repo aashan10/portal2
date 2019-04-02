@@ -19,7 +19,7 @@ class CollegeController extends AdminBaseController
             'contact' => 'string|required',
             'email' => 'email|required',
             'banner' => 'file|required',
-            'description' => 'text|required'
+            'description' => 'string|required'
         ]);
 
         $college = new College();

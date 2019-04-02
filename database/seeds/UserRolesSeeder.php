@@ -32,6 +32,10 @@ class UserRolesSeeder extends Seeder
             'name' => 'moderator',
             'guard_name' => 'web'
         ]);
+        DB::table('roles')->insert([
+            'name' => 'staff',
+            'guard_name' => 'web'
+        ]);
     }
     
 }

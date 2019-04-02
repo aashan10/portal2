@@ -42,7 +42,7 @@ class Post extends Model
     }
 
     public static function posts(){
-        return static::where('post_type', 'post')->get();
+        return static::where('post_type', 'post')->orderBy('created_at','desc')->get();
     }
     public function hasAttachments(){
         return (count($this->attachments()) > 0) ? true : false;

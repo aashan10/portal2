@@ -11,6 +11,12 @@
 |
 */
 
-Route::prefix('course')->group(function() {
-    Route::get('/', 'CourseController@index');
+Route::prefix('/admin')->name('admin.')->middleware('auth')->middleware(function($request, $next){
+    if(auth()->user()->hasRole('admin')){
+        return $next($request);
+    }
+    return view('errors.unauthorized')->with('message','You are not authorized to view this page!');
+})->group(function(){
+    Route::resource('/course','CourseController');
 });
+
