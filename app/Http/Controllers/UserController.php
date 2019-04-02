@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Helper\Response;
+use Modules\College\Entities\College;
 
 class UserController extends Controller
 {
@@ -168,6 +169,7 @@ class UserController extends Controller
     }
 
     public function onBoarding(){
-        return view('users.onBoarding');
+        $colleges = College::all();
+        return view('users.onBoarding',['colleges'=>$colleges]);
     }
 }

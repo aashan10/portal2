@@ -19,7 +19,18 @@
                 </div>
                 <div class="form-group">
                     <label for="name">College</label>
-                    <input type="text" name="College" class="form-control" value="{{\Illuminate\Support\Facades\Auth::user()->getMeta('College') ? \Illuminate\Support\Facades\Auth::user()->getMeta('College')->value : ''}}" required>
+                    <select name="college" id="" class="form-control" >
+                        @if(\Illuminate\Support\Facades\Auth::user()->getMeta('college'))
+                            <option value="">{{\Illuminate\Support\Facades\Auth::user()->getMeta('college')->value}}</option>
+                        @else
+                            @foreach($colleges as $college)
+                                <option value="">Please Select Your College</option>
+                                <option value="{{$college->name}}">{{$college->name}}</option>
+
+                            @endforeach
+                        @endif
+                    </select>
+{{--                    <input type="text" name="College" class="form-control" value="{{\Illuminate\Support\Facades\Auth::user()->getMeta('College') ? \Illuminate\Support\Facades\Auth::user()->getMeta('College')->value : ''}}" required>--}}
                 </div>
                 <div class="form-group">
                     <label for="name">Year</label>
