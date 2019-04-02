@@ -19,7 +19,7 @@
                 </div>
                 <div class="form-group">
                     <label for="name">College</label>
-                    <select name="college" id="" class="form-control" >
+                    <select name="college" id="" class="form-control"  >
                         @if(\Illuminate\Support\Facades\Auth::user()->getMeta('college'))
                             <option value="">{{\Illuminate\Support\Facades\Auth::user()->getMeta('college')->value}}</option>
                         @else
