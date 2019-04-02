@@ -16,7 +16,7 @@ class FirstLogin
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user() && !Auth::user()->metaExists('College')){
+        if(Auth::user() && (Auth::user()->college_id == null)){
             return redirect()->route('user.onBoarding');
         }
         return $next($request);

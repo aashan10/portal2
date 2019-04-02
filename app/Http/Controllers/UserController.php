@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Helper\Response;
-
+use Modules\College\Entities\College;
 class UserController extends Controller
 {
     /**
@@ -161,12 +161,17 @@ class UserController extends Controller
         return Response::errorUnprocessibleEntity('Please select an image file to upload!');
     }
     public function userUnderReview(){
-        if(Auth::user()->status == 'active') {
+        if(Auth::user()->status == 'pending') {
             return view('users.pending');
         }
     }
 
     public function onBoarding(){
-        return view('users.onBoarding');
+        $this->colleges = College::all();
+        return view('users.onBoarding', $this->data);
+    }
+
+    public function getCourses($college_id){
+        
     }
 }

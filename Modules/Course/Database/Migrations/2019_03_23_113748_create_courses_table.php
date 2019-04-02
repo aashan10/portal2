@@ -14,8 +14,13 @@ class CreateCoursesTable extends Migration
     public function up()
     {
         Schema::create('courses', function (Blueprint $table) {
-            $table->bigIncrements('id');
-
+            $table->increments('id');
+            $table->string('title');
+            $table->integer('total_years');
+            $table->enum('is_semester_based', ['yes', 'no'])->default('no');
+            $table->smallInteger('total_semesters')->default(8);
+            $table->string('university');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

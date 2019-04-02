@@ -2,74 +2,127 @@
 
 @section('content')
 <div class="card">
-    <div class="row">
-        <div class="col-md-12">
-            <h4 class="mt-3 mx-1    ">Please Tell Us More About Yourself!!</h4>
-            <form action="" method="post" class="form mx-2">
-                    @csrf()
-                    @method('PATCH')
-                <label for="Name">Name</label>
-                <input type="text" class="form-control"  value="{{\Illuminate\Support\Facades\Auth::user()->name}}">
-                <label for="Email">Email</label>
-                <input type="email" class="form-control"  value="{{\Illuminate\Support\Facades\Auth::user()->email}}">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="">Add Details</h4>
+                <form action="" method="post" class="form mx-2">
+                        @csrf()
+                        @method('PATCH')
+                    <div class="form-group">
+                        <label for="name">College</label>
+                        <select name="college" id="college" class="form-control" required>
+                                <option value="">-- Select Your College --</option>
+                            @foreach($colleges as $college)
+                                <option value="{{ $college->id }}">{{ $college->title }}</option>
+                            @endforeach()
+                        </select>
+                    </div>
+                    <div id="additional-details" class="mb-3">
+                        <div class="form-group" style="display:none">
+                            <label>Course</label>
+                            <select class="form-control" name="course" id="courses">
+                                <option value="">--Select Your Course--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="current_year">
 
-                <div class="form-group">
-                    <label for="name">Bio</label>
-                    <textarea type="text" name="bio" class="form-control" >{{\Illuminate\Support\Facades\Auth::user()->getMeta('bio') ? \Illuminate\Support\Facades\Auth::user()->getMeta('bio')->value: ''}}</textarea>
-                </div>
-                <div class="form-group">
-                    <label for="name">College</label>
-                    <input type="text" name="College" class="form-control" value="{{\Illuminate\Support\Facades\Auth::user()->getMeta('College') ? \Illuminate\Support\Facades\Auth::user()->getMeta('College')->value : ''}}" required>
-                </div>
-                <div class="form-group">
-                    <label for="name">Year</label>
-                    <input type="text" class="form-control" name="Year" value="{{\Illuminate\Support\Facades\Auth::user()->getMeta('Year') ? \Illuminate\Support\Facades\Auth::user()->getMeta('Year')->value : ''}}"  required>
-                </div>
-                <div class="form-group">
-                    @if(\Illuminate\Support\Facades\Auth::user()->hasRole('student'))
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="name">Faculty</label>
-                                    <input type="text" name="faculty" class="form-control" placeholder="BIT, Bsc.Csit" required  value="{{\Illuminate\Support\Facades\Auth::user()->getMeta('faculty') ? \Illuminate\Support\Facades\Auth::user()->getMeta('faculty')->value : ''}}" />
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="name">Semester</label>
-                                    <input type="text" name="Semester" placeholder="First" class="form-control" value="{{\Illuminate\Support\Facades\Auth::user()->getMeta('sem_Year') ? \Illuminate\Support\Facades\Auth::user()->getMeta('sem_Year')->value : ''}}">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="name">Facebook Url:</label>
-                                    <input type="text" class="form-control" name="facebook" value="{{\Illuminate\Support\Facades\Auth::user()->getMeta('facebook') ? \Illuminate\Support\Facades\Auth::user()->getMeta('facebook')->value : ''}}">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="name">Twitter Url:</label>
-                                    <input type="text" class="form-control" name="twitter" value="{{\Illuminate\Support\Facades\Auth::user()->getMeta('twitter') ? \Illuminate\Support\Facades\Auth::user()->getMeta('twitter')->value : ''}}">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Phone</label>
-                            <input type="number" class="form-control" name="phone" value="{{\Illuminate\Support\Facades\Auth::user()->getMeta('phone') ? \Illuminate\Support\Facades\Auth::user()->getMeta('phone')->value : ''}}">
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Website</label>
-                            <input type="text" class="form-control" name="website" value="{{\Illuminate\Support\Facades\Auth::user()->getMeta('website') ? \Illuminate\Support\Facades\Auth::user()->getMeta('website')->value : ''}}">
-                        </div>
+                    </div>
+                    <div id="messages mb-3 hidden">
 
-                    @endif
-                </div>
-                <button class="btn btn-success mt-3 float-right mb-2">Update Info</button>
-            </form>
+                    </div>
+                    <div id="loading" class="text-center text-primary" style="display: none;">
+                        <i class="fa fa-circle-o-notch fa-3x fa-spin"></i>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-success float-right" id="submit" disabled>Update Info</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
 
-    @endsection
+@endsection()
+
+@push('scripts')
+    <script>
+         var loader = $('#loading');
+         var body = $('#additional-details');
+         var message = $('#message');
+         message.addClass('alert');
+        $('#college').change(function(event){
+            event.preventDefault();
+            var url = '{{ route("college.getcourses", ":id") }}';
+            var id = $('#college').val();
+            if(url.includes(':id')){
+                url = url.replace(':id', id);
+            }else{
+                url = url.substr(0, url.lastIndexOf('/'));
+                url += id;
+            }
+            $.ajax({
+                url : url,
+                method : 'GET',
+                success : function(response){
+                    loader.hide();
+                    if(response.status === 'success'){
+                        var select = $('#courses');
+                        response.data.courses.map(function(element){
+                            select.append($(document.createElement('option')).attr('value', element.id).attr('data-course', JSON.stringify(element)).html(element.title));
+                        });
+                        select.parent().show();
+                    }else{
+                        message.addClass('alert-danger');
+                        message.append(response.message);
+                        message.show();
+                    }
+                },
+                error : function(response){
+                    loader.hide();
+                    message.addClass('alert-danger');
+                    message.innerHTML = response;
+                    message.show();
+                },
+                beforeSend : function(){
+                    loader.show();
+                },
+                timeout : function(){
+                    loader.hide();
+                }
+            });
+        });
+
+        $('#courses').change(function(event){
+            event.preventDefault();
+            var selected = $(this).find('option:selected');
+            
+            var course = selected.data('course');
+            var col = $(document.createElement('div'));
+            var year = $(document.createElement('input')).attr('type','number').attr('name','year').attr('max', course.total_years).attr('min',0).attr('required', true);
+            year.addClass('form-control');
+            var container = $('#current_year');
+            col.append("<label>Year</label>");
+            col.append(year);
+            if(course.is_semester_based === 'yes'){
+                var col2 = $(document.createElement('div'));
+                col.addClass('col-md-6 pl-0');
+                col2.addClass('col-md-6 pr-0');
+                var semester = $(document.createElement('input')).attr('type','number').attr('name','semester').attr('max', course.total_semesters).attr('min',0).attr('required', true);
+                semester.addClass('form-control');
+                col2.append("<label>Semester</label>");
+                col2.append(semester);
+                var div = $(document.createElement('div'));
+                div.addClass('row px-3');
+                div.append(col);
+                div.append(col2);
+                container.html(div);
+            }else{
+                col.addClass('col-md-12 px-0');
+                container.replaceWith(col);
+            }
+            $('#submit').removeAttr('disabled');
+        });
+    </script>
+@endpush()

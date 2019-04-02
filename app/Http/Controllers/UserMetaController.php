@@ -72,10 +72,12 @@ class UserMetaController extends Controller
         return Response::errorContentNotFound();
     }
 
-    public function onBoarding(Request $request, User $user = null){
-
-        ($user == null) ? $user =  Auth::user() : null ;
-        foreach($request->except(['_token','_method']) as $key =>  $value){
+    public function onBoarding(Request $request){
+        $user = Auth::user();
+        $user->college_id = $request->college;
+        $user->course_id = $request->course;
+        $user->save();
+        foreach($request->except(['_token','_method','college','course']) as $key =>  $value){
             $meta = $user->setMeta($key, $value);
             $meta->type = 'text';
             $meta->save();

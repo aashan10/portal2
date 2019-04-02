@@ -5,9 +5,20 @@ namespace Modules\College\Http\Controllers;
 use Illuminate\Http\Request;
 use Modules\College\Entities\College;
 use App\Http\Controllers\Admin\AdminBaseController;
+use Illuminate\Support\Facades\Auth;
 
 class CollegeController extends AdminBaseController
 {
+    public function __construct()
+    {   
+        parent::__construct();
+        $this->middleware(function($request, $next){
+            if(Auth::user() && (Auth::user()->hasRole('admin') || Auth::user()->hasRole('college admin') ) ){
+                return $next($request);
+            }
+            return view('unauthorized')->with('message', 'You are not allowed to view this page!');
+        });
+    }
     public function create(){
         return view('college::create', $this->data);
     }
@@ -44,6 +55,9 @@ class CollegeController extends AdminBaseController
 
     public function update(Request $request, $id){
         $college = College::findOrFail($id);
+        if(!$college->isCollegeAdmin(Auth::user())){
+            return view('unauthorized')->with('message','You are not the admin of this college!');
+        }
         $request->validate([
             'title' => 'string|required',
             'address' => 'string|required',

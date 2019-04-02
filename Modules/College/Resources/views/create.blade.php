@@ -91,7 +91,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h4>Add College</h4>
+            <h4>{{(isset($college)) ? 'Update' : 'Add'}} College</h4>
         </div>
         <style>
             li{
@@ -181,7 +181,7 @@
                     @endif()
                 </div>
                 <div class="form-group">
-                    <button type="submit" id="createCollege" class="btn btn-primary float-right">Add College</button>
+                    <button type="submit" id="createCollege" class="btn btn-primary float-right">{{ (isset($college)) ? 'Update' : 'Add'}} College {{ (isset($college)) ? 'Details' : '' }}</button>
                     <br/>
                     <br/>
                 </div>
