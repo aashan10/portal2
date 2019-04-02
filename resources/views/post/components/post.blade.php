@@ -29,7 +29,7 @@
         
         <div class="row pt-3">
             <div class="col-md-2 votes pr-0">
-                <div class="my-auto btn-group-vertical float-left" data-id="{{ $post->id }}" role="group" style="position:absolute:left:0;">
+                <div class="my-auto btn-group-vertical float-left"  data-id="{{ $post->id }}" role="group" style="vertical-align:baseline !important;">
                     <button type="button" class="btn {{ (auth()->user()->hasUpvotedPost($post)) ? 'btn-primary' : 'btn-outline-primary' }} upvoteButton btn-sm px-0">
                         <i class="fa fa-arrow-up"></i>
                     </button>

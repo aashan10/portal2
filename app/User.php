@@ -138,4 +138,8 @@ class User extends Authenticatable
     public function hasDownvotedPost(Post $post){
         return (Vote::where('user_id', $this->id)->where( 'post_id', $post->id)->where('type', 'downvote')->first()) ? true : false;
     }
+
+    public function getCollege(){
+        return College::find($this->college_id);
+    }
 }

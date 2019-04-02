@@ -19,6 +19,11 @@
 <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @stack('styles')
+    <style>
+        img{
+            max-width:100% !important;
+        }
+    </style>
 </head>
 <body>
 <div id="app">

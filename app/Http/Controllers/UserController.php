@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Helper\Response;
 use Modules\College\Entities\College;
+use Modules\Course\Entities\Course;
 
 class UserController extends Controller
 {
@@ -162,14 +163,18 @@ class UserController extends Controller
         return Response::errorUnprocessibleEntity('Please select an image file to upload!');
     }
     public function userUnderReview(){
-        if(Auth::user()->status == 'active'){
-            return redirect('/home');
+        if(Auth::user()->status == 'pending') {
+            return view('users.pending');
         }
-        return view('users.pending');
     }
 
     public function onBoarding(){
-        $colleges = College::all();
-        return view('users.onBoarding',['colleges'=>$colleges]);
+        $this->colleges = College::all();
+        $this->courses = Course::all();
+        return view('users.onBoarding', $this->data);
+    }
+
+    public function getCourses($college_id){
+        
     }
 }

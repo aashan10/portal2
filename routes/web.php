@@ -15,9 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::group([ 'middleware' => ['web','active','welcome']],function(){
-    Auth::routes();
+Auth::routes();
+Route::group([ 'middleware' => ['web','welcome','active']],function(){
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('/users','UserController');
     Route::post('/post','PostController@store')->name('post.post');
@@ -46,6 +45,13 @@ Route::group([ 'middleware' => ['web','active','welcome']],function(){
         Route::post('/{id}/downvote','PostsController@downvote')->name('downvote');
     });
 });
-Route::get('/user-under-review', 'UserController@userUnderReview')->name('under-review');
-Route::get('/onBoarding','UserController@onBoarding')->name('user.onBoarding');
-Route::patch('/onBoarding','UserMetaController@onBoarding')->name('user.meta.onBoarding');
+Route::middleware(function($request, $next){
+    if(auth()->user()){
+        return $next($request);
+    }
+    return redirect('/login');
+})->group(function(){
+    Route::get('/user-under-review', 'UserController@userUnderReview')->name('under-review');
+    Route::get('/on-boarding','UserController@onBoarding')->name('user.onBoarding');
+    Route::patch('/on-boarding','UserMetaController@onBoarding')->name('user.meta.onBoarding');
+});

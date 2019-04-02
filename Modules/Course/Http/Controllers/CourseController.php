@@ -76,13 +76,19 @@ class CourseController extends AdminBaseController
     {
         $request->validate([
             'courseName' => 'string|required',
-            'college_id' => 'numeric|required',
-            'description' => 'string|required'
+            'totalYears' => 'numeric|required',
+            'university' => 'string|required'
         ]);
 
         $course = new Course();
-        $course->college_id = $request->college_id;
-        $course->name = $request->courseName;
+        $course->title = $request->courseName;
+        $course->total_years = $request->totalYears;
+        $course->is_semester_based = $request->is_semester_based;
+        if($request->total_semester){
+            $course->total_semester = $request->total_semester;
+        }
+
+        $course->university = $request->university;
         $course->description = $request->description;
         $course->save();
 

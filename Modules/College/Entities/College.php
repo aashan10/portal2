@@ -3,6 +3,8 @@
 namespace Modules\College\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\CollegeAdmin\Entities\CollegeAdmin;
+use Modules\Course\Entities\Course;
 
 class College extends Model
 {
@@ -26,5 +28,12 @@ class College extends Model
     }
     public function getBannerImage(){
         return $this->banner_image;
+    }
+    public function isCollegeAdmin(User $user){
+        return (CollegeAdmin::where('college_id', $this->id)->where('user_id', $user->id)->first()) ? true : false ;
+    }
+
+    public function hasCourse(Course $course){
+        return (CollegeCourse::where('college_id', $this->id)->where('course_id', $course->id)->first() !== null) ? true : false;
     }
 }

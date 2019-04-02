@@ -24,8 +24,8 @@
         tinymce.init({
             menubar:false,
             selector: '#postContent',
-            plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars mediapicker fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help',
-            toolbar: 'bold italic underline permanentpen formatpainter | link codesample image | mediapicker | numlist '
+            plugins: 'fullpage autolink mediapicker fullscreen image link media template codesample anchor  insertdatetime advlist lists wordcount',
+            toolbar: 'bold italic underline permanentpen formatpainter | link codesample image | mediapicker | numlist ',
         });
         $('#postTitle').change(function(event){
             event.preventDefault();
