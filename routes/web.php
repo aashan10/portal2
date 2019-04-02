@@ -30,7 +30,7 @@ Route::group([ 'middleware' => ['web','welcome','active']],function(){
 
     Route::prefix('/admin') ->group(function (){
 
-        Route::get('/','AdminController@index')->name('admin.index');
+        Route::get('/','Admin/AdminBaseController@index')->name('admin.index');
 
 
     });
