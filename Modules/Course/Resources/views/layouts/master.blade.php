@@ -8,7 +8,7 @@
 
     {{-- Laravel Mix - CSS File --}}
     {{-- <link rel="stylesheet" href="{{ mix('css/college.css') }}"> --}}
-
+    @stack('scripts')
 </head>
 <body>
 @yield('content')
