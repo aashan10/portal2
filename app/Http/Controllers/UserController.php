@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Helper\Response;
 use Modules\College\Entities\College;
+use Modules\Course\Entities\Course;
+
 class UserController extends Controller
 {
     /**
@@ -170,6 +172,7 @@ class UserController extends Controller
 
     public function onBoarding(){
         $this->colleges = College::all();
+        $this->courses = Course::all();
         return view('users.onBoarding', $this->data);
     }
 

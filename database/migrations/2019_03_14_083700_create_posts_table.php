@@ -29,6 +29,7 @@ class CreatePostsTable extends Migration
             $table->enum('post_status',['published','draft','trashed'])->default('draft');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('parent_id')->references('id')->on('posts')->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -23,6 +23,9 @@
                             <label>Course</label>
                             <select class="form-control" name="course" id="courses">
                                 <option value="">--Select Your Course--</option>
+                                @foreach($courses as $course)
+                                    <option value="{{$course->id}}">{{$course->title}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -100,16 +103,17 @@
 
             var course = selected.data('course');
             var col = $(document.createElement('div'));
-            var year = $(document.createElement('input')).attr('type','number').attr('name','year').attr('max', course.total_years).attr('min',0).attr('required', true);
+            var year = $(document.createElement('input')).attr('type','number').attr('name','year').attr('max', courses.total_years).attr('min',0).attr('required', true);
             year.addClass('form-control');
             var container = $('#current_year');
             col.append("<label>Year</label>");
             col.append(year);
-            if(course.is_semester_based === 'yes'){
+            if(courses.is_semester_based === 'yes'){
                 var col2 = $(document.createElement('div'));
                 col.addClass('col-md-6 px-0');
                 col2.addClass('col-md-6 px-0');
                 var semester = $(document.createElement('input')).attr('type','number').attr('name','semester').attr('max', course.total_semesters).attr('min',0).attr('required', true);
+
                 semester.addClass('form-control');
                 col2.append("<label>Semester</label>");
                 col2.append(semester);
