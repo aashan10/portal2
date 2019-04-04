@@ -8,15 +8,22 @@
         }
         @media only screen and (max-width : 767px){
             .votes{
-                width : 60px !important;
-                padding-left : 18px;
+                width : 80px !important;
                 margin : 0;
+                float:left;
             }
             .post-content {
-                position : relative;
-                top : -90px ;
-                bottom : 0;
-                left : 92px;
+                float: left;
+                overflow: auto;
+                max-width:calc(100% - 82px);
+                padding-left: 10px !important;
+            }
+            .post-options-button{
+                background-color: #fff !important;
+            }
+            .post-options{
+                margin-left:-130px !important;
+                margin-top:5px !important;
             }
         }
     </style>

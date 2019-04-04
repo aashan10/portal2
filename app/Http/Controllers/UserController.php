@@ -163,6 +163,8 @@ class UserController extends Controller
     public function userUnderReview(){
         if(Auth::user()->status == 'pending') {
             return view('users.pending');
+        }else{
+            return redirect('/home');
         }
     }
 

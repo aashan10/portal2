@@ -107,8 +107,8 @@
             col.append(year);
             if(course.is_semester_based === 'yes'){
                 var col2 = $(document.createElement('div'));
-                col.addClass('col-md-6 pl-0');
-                col2.addClass('col-md-6 pr-0');
+                col.addClass('col-md-6 px-0');
+                col2.addClass('col-md-6 px-0');
                 var semester = $(document.createElement('input')).attr('type','number').attr('name','semester').attr('max', course.total_semesters).attr('min',0).attr('required', true);
                 semester.addClass('form-control');
                 col2.append("<label>Semester</label>");

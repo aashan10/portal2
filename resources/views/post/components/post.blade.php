@@ -3,10 +3,10 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="dropdown float-right">
-                    <button class="btn px-0 py-0 dropdown-toggle float-right" id="postActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn post-options-button px-0 py-0 dropdown-toggle float-right" id="postActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-ellipsis-h"></i>
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="postActions" style="padding:0; margin-top:-10px;">
+                    <div class="dropdown-menu post-options" aria-labelledby="postActions" style="padding:0; margin-top:-10px;">
                         @if($post->user()->id == auth()->id())
                             <small>
                                 <a class="dropdown-item text-danger" href="{{ route('post.destroy', $post->id) }}">
@@ -27,8 +27,9 @@
             </div>
         </div>
         
+        
         <div class="row pt-3">
-            <div class="col-md-2 votes pr-0">
+            <div class="col-md-2 votes">
                 <div class="my-auto btn-group-vertical float-left"  data-id="{{ $post->id }}" role="group" style="vertical-align:baseline !important;">
                     <button type="button" class="btn {{ (auth()->user()->hasUpvotedPost($post)) ? 'btn-primary' : 'btn-outline-primary' }} upvoteButton btn-sm px-0">
                         <i class="fa fa-arrow-up"></i>
@@ -41,9 +42,10 @@
             </div>
             <div class="col-md-10 post-content" >
                 <h5>{!! $post->post_title !!}</h5>
-                {!! $post->post_content !!} 
+                {!! $post->post_content !!}
             </div>
         </div>
+        
         <div class="row mt-3" id="commentBox">
             <div class="col-md-12">
             <form action="{{route('post.comment',['post_id' => $post->id])}}" method="POST">

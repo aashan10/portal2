@@ -3,7 +3,7 @@
     <div class="card-body">
         <h4 align="center"> {{ $user->name }}</h4>
         <p align="center">
-            {!! ($user->getMeta('bio') !== null ) ? $user->getMeta('bio')->value : 'Bio<br/><a href="'.route('users.edit', $user->id).'">Set your bio</a>'  !!}
+            {!! ($user->getMeta('bio') !== null ) ? $user->getMeta('bio')->value : (auth()->user()->id != $user->id) ? '' : 'Bio<br/><a href="'.route('users.edit', $user->id).'">Set your bio</a>'  !!}
         </p>
     </div>
     <ul class="list-group">
