@@ -17,7 +17,8 @@ class CourseController extends AdminBaseController
      */
     public function index()
     {
-        return view('course::index');
+        $this->courses  = Course::all();
+        return view('course::index', $this->data);
     }
 
     /**
@@ -69,7 +70,13 @@ class CourseController extends AdminBaseController
      */
     public function destroy($id)
     {
-        //
+        $course = Course::findOrFail($id);
+        if(Auth::user()->hasPermissionTo('delete_course')){
+            $course->delete();
+            return redirect()->back()->with('success', 'The course was deleted successfully!');
+        }else{
+            return redirect()->back()->with('error', 'You do not have permission for this operation!');
+        }
     }
 
     public function store(Request $request)
@@ -84,8 +91,8 @@ class CourseController extends AdminBaseController
         $course->title = $request->courseName;
         $course->total_years = $request->totalYears;
         $course->is_semester_based = $request->is_semester_based;
-        if($request->total_semester){
-            $course->total_semester = $request->total_semester;
+        if($request->total_semesters){
+            $course->total_semesters = $request->total_semesters;
         }
 
         $course->university = $request->university;

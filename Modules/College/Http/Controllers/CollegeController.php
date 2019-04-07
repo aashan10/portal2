@@ -20,10 +20,17 @@ class CollegeController extends AdminBaseController
         });
     }
     public function create(){
-        return view('college::create', $this->data);
+        if(Auth::user()->hasPermissionTo('create_institute')){
+            return view('college::create', $this->data);
+        }else{
+            return redirect()->back()->with('error', 'You are not allowed to carry out this operation');
+        }
     }
 
     public function store(Request $request){
+        if(!Auth::user()->hasPermissionTo('create_institute')){
+            return redirect()->back()->with('error', 'You are not allowed to carry out this operation');
+        }
         $request->validate([
             'title' => 'string|required',
             'address' => 'string|required',
@@ -54,6 +61,9 @@ class CollegeController extends AdminBaseController
     }
 
     public function update(Request $request, $id){
+        if(!Auth::user()->hasPermissionTo('edit_institute')){
+            return redirect()->back()->with('error', 'You are not allowed to carry out this operation');
+        }
         $college = College::findOrFail($id);
         if(!$college->isCollegeAdmin(Auth::user())){
             return view('unauthorized')->with('message','You are not the admin of this college!');
@@ -81,6 +91,9 @@ class CollegeController extends AdminBaseController
     }
 
     public function edit($id){
+        if(!Auth::user()->hasPermissionTo('edit_institute')){
+            return redirect()->back()->with('error', 'You are not allowed to carry out this operation');
+        }
         $this->college = College::findOrFail($id);
         return view('college::create', $this->data);
     }
@@ -91,6 +104,9 @@ class CollegeController extends AdminBaseController
     }
 
     public function destroy($id){
+        if(!Auth::user()->hasPermissionTo('delete_institute')){
+            return redirect()->back()->with('error', 'You are not allowed to carry out this operation');
+        }
         $college = College::findOrFail($id);
         $college->delete();
         return redirect()->back()->with('success', 'College deleted successfully!');

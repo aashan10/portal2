@@ -17,17 +17,17 @@
                     <input type="number" name="totalYears" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="yesrs">Is Semester Based?</label>
+                    <label for="yesrs">Semester Based?</label>
                     <input type="radio" name="is_semester_based" class="form-group mx-2" id="Semyes" value="Yes">Yes
                     <input type="radio" name="is_semester_based" class="form-group mx-2" id="Semno" value="No">No
                 </div>
                 <div class="form-group d-none" id="totalSem">
                     <label for="semester">Total Semester</label>
-                    <input type="text" name="total_semester" class="form-control">
+                    <input type="text" name="total_semesters" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="semester">University</label>
-                    <input type="text" name="university" class="form-control">
+                    <input type="text" name="university" value="{{ (isset($course)) ? $course->university : '' }}" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="collegeDescription">Description</label>
