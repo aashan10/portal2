@@ -88,6 +88,7 @@
                     @include('components.notifications')
                         {{-- @include('users.post') --}}
                     @yield('content')
+                    
                 </div>
                 <div class="col-md-3">
                     @stack('sidebar-right')

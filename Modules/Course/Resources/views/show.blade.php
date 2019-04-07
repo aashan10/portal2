@@ -1,4 +1,12 @@
-@include('layouts.main')
+@extends('layouts.main')
+
+@prepend('sidebar-left')
+    <div class="list-group">
+        <a class="list-group-item" href="">
+            View Colleges that teach this course.
+        </a>
+    </div>
+@endprepend()
 
 @section('content')
     <div class="card">
