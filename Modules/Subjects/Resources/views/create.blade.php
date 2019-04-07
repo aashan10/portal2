@@ -6,11 +6,11 @@
         <div class="row">
             <div class="card-body">
                 <div class="col-md-12">
-                    <form action="{{route('admin.subject.store')}}" method="post" class="from">
+                    <form action="{{ !isset($subject) ? route('admin.subject.store') : route('admin.subject.update', $subject->id) }}" method="post" class="from">
                         @csrf()
                         <div class="form-group">
                             <label for="name">Subject Name</label>
-                            <input type="text" name="name" class="form-control">
+                            <input type="text" name="name" class="form-control" value="{{ (isset($subject)) ? $subject->name : ''  }}">
                         </div>
                         <div class="form-group">
                             <label for="name">Subject Code</label>
@@ -34,7 +34,7 @@
                         </div>
                         <div class="form-group">
                             <label for="name">Subject Description</label>
-                            <input type="text" name="description"  class="form-control">
+                            <input type="text" name="description"  class="form-control" value="{{ (isset($subject)) ? $subject->description : ''  }}">
                         </div>
                         <div class="form-group">
                             <label for="name">Syllabus</label>

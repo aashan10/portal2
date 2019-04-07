@@ -39,6 +39,7 @@ class SubjectsController extends Controller
         $subject->sub_code = $request->sub_code;
         $subject->practical_marks = $request->practical_marks;
         $subject->theory_marks = $request->theory_marks;
+        $subject->assessment = $request->assessment;
         $subject->credit_hours = $request->credit_hour;
         $subject->Description = $request->description;
         $subject->Syllabus = $request->syllabus;
