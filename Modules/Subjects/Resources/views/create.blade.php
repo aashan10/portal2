@@ -6,7 +6,8 @@
         <div class="row">
             <div class="card-body">
                 <div class="col-md-12">
-                    <form action="#" method="post" class="from">
+                    <form action="{{route('admin.subject.store')}}" method="post" class="from">
+                        @csrf()
                         <div class="form-group">
                             <label for="name">Subject Name</label>
                             <input type="text" name="name" class="form-control">
@@ -24,9 +25,22 @@
                             <input type="number" name="theory_marks"  class="form-control">
                         </div>
                         <div class="form-group">
+                            <label for="name">Assessment Marks</label>
+                            <input type="number" name="assessment"  class="form-control">
+                        </div>
+                        <div class="form-group">
                             <label for="name">Total Credit Hours</label>
                             <input type="number" name="credit_hour"  class="form-control">
                         </div>
+                        <div class="form-group">
+                            <label for="name">Subject Description</label>
+                            <input type="text" name="description"  class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Syllabus</label>
+                            <textarea name="syllabus" id=""class="form-control"></textarea>
+                        </div>
+                        <button class="btn btn-success float-right">Add Subject</button>
                     </form>
                 </div>
             </div>
