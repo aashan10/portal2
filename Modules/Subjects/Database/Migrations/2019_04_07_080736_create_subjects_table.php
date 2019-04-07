@@ -14,15 +14,15 @@ class CreateSubjectsTable extends Migration
     public function up()
     {
         Schema::create('subjects', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('name');
-            $table->string('sub_code');
-            $table->integer('practical_marks');
-            $table->integer('theory_marks');
-            $table->integer('assessment');
-            $table->integer('credit_hours');
-            $table->text('Syllabus');
-            $table->text('Description');
+            $table->string('sub_code')->nullable();
+            $table->integer('practical_marks')->nullable();
+            $table->integer('theory_marks')->nullable();
+            $table->integer('assessment')->nullable();
+            $table->integer('credit_hours')->nullable();
+            $table->text('syllabus');
+            $table->text('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

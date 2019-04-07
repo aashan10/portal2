@@ -19,3 +19,5 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->middleware(function
 })->group(function(){
     Route::resource('/subject','SubjectsController');
 });
+Route::get('/subject', 'SubjectsController@index')->name('subject.index');
+Route::get('/subject/{id}', 'SubjectsController@show')->name('subject.show');
