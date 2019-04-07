@@ -39,7 +39,8 @@ class CourseController extends AdminBaseController
      */
     public function show($id)
     {
-        return view('course::show');
+        $this->course = Course::findOrFail($id);
+        return view('course::show', $this->data);
     }
 
     /**

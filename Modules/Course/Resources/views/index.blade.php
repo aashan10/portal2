@@ -7,9 +7,10 @@
             <input type="text" class="form-control mb-3" placeholder="Search Courses..." id="searchCourse"/>
             @foreach($courses as $course)
                 <div class="card mb-3 course" data-course="{{ json_encode($course) }}">
-                    <a href="">
+                    <a href="{{ route('admin.course.show', $course->id) }}" style="text-decoration: none">
                         <div class="card-body">
                             {{ $course->title  }}
+                            <small class="float-right">{{ $course->description }}</small>
                         </div>
                     </a>
                 </div>
