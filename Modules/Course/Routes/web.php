@@ -20,3 +20,5 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->middleware(function
     Route::resource('/course','CourseController');
 });
 
+Route::get('/course', 'CourseController@index')->name('course.index');
+Route::get('/course/{id}', 'CourseController@show')->name('course.show');

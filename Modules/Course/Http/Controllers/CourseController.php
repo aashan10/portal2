@@ -2,19 +2,31 @@
 
 namespace Modules\Course\Http\Controllers;
 
-use App\Http\Controllers\Admin\AdminBaseController;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+
 use Modules\College\Entities\College;
 use Modules\Course\Entities\Course;
+use App\Http\Controllers\BaseController;
 
-class CourseController extends AdminBaseController
+class CourseController extends BaseController
 {
     /**
      * Display a listing of the resource.
      * @return Response
      */
+
+    public function __construct(){
+        parent::__construct();
+        $this->middleware(function($request, $next){
+            if($this->user->hasRole('admin')){
+                return $next($request);
+            }else{
+                return view('errors.unauthorized')->with('message', 'You are not allowed to iew this page!');
+            }
+        })->except(['show']);
+    }
     public function index()
     {
         $this->courses  = Course::all();

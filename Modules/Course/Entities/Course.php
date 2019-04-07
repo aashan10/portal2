@@ -6,5 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
-    protected $fillable = [];
+    public function subjects(){
+        $courseSubjects = $this->hasMany(CourseSubject::class)->get();
+        $subjects = [];
+        foreach($courseSubjects as $courseSubject){
+            array_push($subjects, $courseSubject->subject());
+        }
+        return $subjects;
+    }
 }

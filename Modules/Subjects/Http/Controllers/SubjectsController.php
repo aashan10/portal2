@@ -4,14 +4,28 @@ namespace Modules\Subjects\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\BaseController;
+use Modules\Subjects\Entities\Subject;
 
-class SubjectsController extends Controller
+class SubjectsController extends BaseController
 {
     /**
      * Display a listing of the resource.
      * @return Response
      */
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware(function($request, $next){
+            if($this->user->hasRole('admin')){
+                return $next($request);
+            }else{
+                return view('errors.unauthorized')->with('message', 'You are not allowed to view this page');
+            }
+        })->except(['index','show']);
+    }
+    
     public function index()
     {
         return view('subjects::index');
@@ -43,7 +57,8 @@ class SubjectsController extends Controller
      */
     public function show($id)
     {
-        return view('subjects::show');
+        $this->subject = Subject::findOrFail($id);
+        return view('subjects::show', $this->data);
     }
 
     /**

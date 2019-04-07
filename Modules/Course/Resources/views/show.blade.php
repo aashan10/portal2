@@ -18,6 +18,17 @@
             @else()
                 <p> There is no description for this course.</p>
             @endif()
+            <div class="list-group">
+                    @forelse ($course->subjects() as $subject)
+                        <a href="{{ route('subject.show', $subject->id) }}" class="list-group-item">
+                            {{ $subject->name }}({{ $subject->sub_code }}) 
+                        </a>
+                    @empty
+                        <li class="list-group-item">
+                            There are no subjects in this course!
+                        </li>
+                    @endforelse
+            </div>
         </div>
     </div>
 @endsection()
