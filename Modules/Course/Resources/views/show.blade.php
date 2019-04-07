@@ -3,7 +3,13 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            Blabla
+            {{ $course->title }}
+
+            @if($course->description !== null)
+                <p>{{ $course->description }}</p>
+            @else()
+                <p> There is no description for this course.</p>
+            @endif()
         </div>
     </div>
 @endsection()
