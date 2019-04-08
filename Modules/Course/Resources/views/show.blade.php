@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends``('layouts.main')
 
 @prepend('sidebar-left')
     <div class="list-group">

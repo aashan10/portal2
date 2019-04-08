@@ -1,6 +1,4 @@
 @extends('layouts.main')
-
-
 @prepend('sidebar-left')
     <ul class="list-group">
         <a href="" class="list-group-item">
@@ -30,4 +28,4 @@
             </p>
         </div>
     </div>
-@endsection()
+@endsection

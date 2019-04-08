@@ -28,7 +28,8 @@ class SubjectsController extends BaseController
     
     public function index()
     {
-        return view('subjects::index');
+        $this->subjects = Subject::all();
+        return view('subjects::index',$this->data);
     }
 
     /**
