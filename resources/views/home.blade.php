@@ -49,7 +49,7 @@
     </style>
 @endpush()
 @section('content')
-    @include('post.components.create')
+    @include('post.components.create', ['courses' => $courses])
     @include('post.show')
     <div id="attachmentsModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">

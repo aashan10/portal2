@@ -3,10 +3,11 @@
 namespace Modules\Subjects\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+
 use App\Http\Controllers\BaseController;
 use Modules\Subjects\Entities\Subject;
-
+use App\Helper\Response;
+use Modules\Course\Entities\Course;
 class SubjectsController extends BaseController
 {
     /**
@@ -23,7 +24,8 @@ class SubjectsController extends BaseController
             }else{
                 return view('errors.unauthorized')->with('message', 'You are not allowed to view this page');
             }
-        })->except(['index','show']);
+        })->except(['index','show','getSubjectsFromCourse']);
+        $this->courses = Course::all();
     }
     
     public function index()
@@ -103,5 +105,22 @@ class SubjectsController extends BaseController
     public function destroy($id)
     {
         //
+    }
+    public function getSubjectsFromCourse($id){
+        $course = Course::find($id);
+        if($course){
+            $subjects = $course->subjects();
+            if($subjects == []){
+                return Response::errorContentNotFound('There are no subjects in this course');
+            }
+            $returnString = '';
+            foreach($subjects as $subject){
+                $returnString .= "<option value='".$subject->id."'>".$subject->name."</option>";
+            }
+            return Response::successWithData('Success', $returnString);
+
+        }else{
+            return Response::errorContentNotFound('The selected is either removed or isnt available.');
+        }
     }
 }

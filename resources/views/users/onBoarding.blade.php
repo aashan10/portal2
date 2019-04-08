@@ -72,9 +72,14 @@
                     loader.hide();
                     if(response.status === 'success'){
                         var select = $('#courses');
+                        var objects = [];
+                        var dummy = $(document.createElement('option')).attr('value', '');
+                        dummy.html('--Pleae Select a Course--');
+                        objects.push(dummy);
                         response.data.courses.map(function(element){
-                            select.append($(document.createElement('option')).attr('value', element.id).attr('data-course', JSON.stringify(element)).html(element.title));
+                            objects.push($(document.createElement('option')).attr('value', element.id).attr('data-course', JSON.stringify(element)).html(element.title));
                         });
+                        select.html(objects);
                         select.parent().show();
                     }else{
                         message.addClass('alert-danger');
@@ -108,24 +113,24 @@
             var container = $('#current_year');
             col.append("<label>Year</label>");
             col.append(year);
-            if(courses.is_semester_based === 'yes'){
+            var div = $(document.createElement('div'));
+            if(course.is_semester_based == 'yes'){
+                div.addClass('row px-0');
                 var col2 = $(document.createElement('div'));
-                col.addClass('col-md-6 px-0');
-                col2.addClass('col-md-6 px-0');
+                col.addClass('col-md-6');
+                col2.addClass('col-md-6');
                 var semester = $(document.createElement('input')).attr('type','number').attr('name','semester').attr('max', course.total_semesters).attr('min',0).attr('required', true);
 
                 semester.addClass('form-control');
                 col2.append("<label>Semester</label>");
                 col2.append(semester);
-                var div = $(document.createElement('div'));
-                div.addClass('row px-3');
                 div.append(col);
                 div.append(col2);
-                container.html(div);
             }else{
                 col.addClass('col-md-12 px-0');
-                container.replaceWith(col);
+                div.append(col);
             }
+            container.html(div);
             $('#submit').removeAttr('disabled');
         });
     </script>

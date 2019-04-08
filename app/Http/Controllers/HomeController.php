@@ -7,6 +7,7 @@ use App\User;
 use App\Post;
 use Modules\CollegeAdmin\Entities\CollegeAdmin;
 use Modules\College\Entities\College;
+use Modules\Course\Entities\Course;
 class HomeController extends Controller
 {
     /**
@@ -38,7 +39,9 @@ class HomeController extends Controller
             $this->activeStaffs = count(User::role('staff')->where('status','active')->get());
             $this->suspendedStaffs = count(User::role('staff')->where('status','suspended')->get());
             $this->pendingStaffs = count(User::role('staff')->where('status','pending')->get());
+            
         }
+        $this->courses = Course::all();
         if(Auth::user()->hasRole('college admin')){
             $colleges = CollegeAdmin::where('user_id', $this->user->id)->get();
             $clz = [];

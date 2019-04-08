@@ -53,8 +53,21 @@ class PostsController extends Controller
             $vote->type = 'upvote';
             $vote->save();
         }
+        if($post->countVotes() > 1000000000){
+            $votes = (int) ($post->countVotes() / 1000000000);
+            $votes .= 'B';
+        }else if($post->countVotes() > 1000000){
+            $votes = (int) ($post->countVotes() / 1000000);
+            $votes .= 'M';
+        }else if($post->countVotes() > 1000){
+            $votes = (int) ($post->countVotes() / 1000000);
+            $votes .= 'K';
+        }else{
+            $votes = $post->countVotes();
+        }
+
         return Response::successWithData('Upvoted', [
-            'votes_count' => $post->countVotes(),
+            'votes_count' => $votes,
             'type' => 'upvote'
         ]);
     }
@@ -75,8 +88,20 @@ class PostsController extends Controller
             $vote->type = 'downvote';
             $vote->save();
         }
+        if($post->countVotes() > 1000000000){
+            $votes = (int) ($post->countVotes() / 1000000000);
+            $votes .= 'B';
+        }else if($post->countVotes() > 1000000){
+            $votes = (int) ($post->countVotes() / 1000000);
+            $votes .= 'M';
+        }else if($post->countVotes() > 1000){
+            $votes = (int) ($post->countVotes() / 1000000);
+            $votes .= 'K';
+        }else{
+            $votes = $post->countVotes();
+        }
         return Response::successWithData('Downvoted', [
-            'votes_count' => $post->countVotes(),
+            'votes_count' => $votes,
             'type' => 'downvote'
         ]);
     }

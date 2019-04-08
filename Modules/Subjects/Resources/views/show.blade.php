@@ -7,8 +7,41 @@
     </ul>
 @endprepend()
 
+@prepend('sidebar-right')
+    <div class="card mb-3">
+        <div class="card-body">
+            Courses containing "{{ $subject->name }} ({{ $subject->sub_code }})"
+            @forelse($subject->courses() as $course)
+                <br/><a href="">{{$course->title}}</a>
+            @empty
+                There are no courses that include this subject.
+            @endforelse()
+        </div>
+    </div>
+    @role('admin')
+        <div class="card">
+            <div class="card-header">
+                Add Subject to Course
+            </div>
+            <div class="card-body">
+
+                <form action="">
+                    <div class="form-group">
+                        <label for="courses">Courses</label><br/>
+                        <small style="line-height: 0.2"> Ctrl + Click the course names to select multiple courses. </small>
+                        <select multiple name="courses" class="form-control" id="courses">
+                            @foreach($courses as $course)
+                                <option value="{{ $course->id }}"> {{ $course->title }} </option>
+                            @endforeach()
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    @endrole()
+@endprepend()
 @section('content')
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
             <h4>{{ $subject->name }} ({{ $subject->sub_code }})</h4>
             <p class="float-right">
@@ -28,4 +61,4 @@
             </p>
         </div>
     </div>
-@endsection
+@endsection()
