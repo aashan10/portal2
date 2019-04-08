@@ -23,6 +23,9 @@
         img{
             max-width:100% !important;
         }
+        .tox-statusbar{
+                display : none !important;
+            }
     </style>
 </head>
 <body>
@@ -97,6 +100,9 @@
         </div>
     </main>
 </div>
+
+    
+
 <script src="{{ asset('/js/app.js') }}"></script>
 @stack('scripts')
 </body>

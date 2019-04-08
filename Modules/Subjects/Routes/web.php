@@ -21,3 +21,4 @@ Route::prefix('/admin')->name('admin.')->middleware('auth')->middleware(function
 });
 Route::get('/subject', 'SubjectsController@index')->name('subject.index');
 Route::get('/subject/{id}', 'SubjectsController@show')->name('subject.show');
+Route::post('/subject/from-course/{id}', 'SubjectsController@getSubjectsFromCourse')->name('subject.from-course');

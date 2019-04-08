@@ -37,7 +37,7 @@
                     <button type="button" class="btn {{ (auth()->user()->hasDownvotedPost($post)) ? 'btn-primary' : 'btn-outline-primary' }} downvoteButton btn-sm px-0">
                         <i class="fa fa-arrow-down"></i>
                     </button>
-                    <button class="votesCount px-2 py-2 btn btn-outline-primary text-blue btn-sm px-0">{{ $post->countVotes() }} Votes</button>
+                    <button class="votesCount px-2 py-2 btn btn-outline-primary text-blue btn-sm px-0">{{ $post->countVotes() }} <br/>Votes</button>
                 </div>
             </div>
             <div class="col-md-10 post-content" >

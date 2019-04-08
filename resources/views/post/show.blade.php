@@ -54,7 +54,7 @@
                     $(self).attr('disabled',false);
                     downvotebutton.removeClass('btn-primary');
                     downvotebutton.addClass('btn-outline-primary');
-                    $(self).siblings('.votesCount').html(response.data.votes_count+" Votes");
+                    $(self).siblings('.votesCount').html(response.data.votes_count+"<br/> Votes");
                 },
                 error : function(response){
 
@@ -86,7 +86,7 @@
                     $(self).attr('disabled',false);
                     upvoteButton.removeClass('btn-primary');
                     upvoteButton.addClass('btn-outline-primary');
-                    $(self).siblings('.votesCount').html(response.data.votes_count+" Votes");
+                    $(self).siblings('.votesCount').html(response.data.votes_count+"<br/> Votes");
                 },
                 error : function(response){
 
