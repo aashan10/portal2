@@ -108,7 +108,7 @@
 
             var course = selected.data('course');
             var col = $(document.createElement('div'));
-            var year = $(document.createElement('input')).attr('type','number').attr('name','year').attr('max', courses.total_years).attr('min',0).attr('required', true);
+            var year = $(document.createElement('input')).attr('type','number').attr('name','year').attr('max', course.total_years).attr('min',0).attr('required', true);
             year.addClass('form-control');
             var container = $('#current_year');
             col.append("<label>Year</label>");

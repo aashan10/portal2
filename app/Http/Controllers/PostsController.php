@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\PostMeta;
 use Illuminate\Http\Request;
 use App\Helper\Response;
 use App\Post;
@@ -23,6 +24,17 @@ class PostsController extends Controller
     }
 
     public function update(Request $request, $id){
+        if($request->has('attachments')){
+           foreach ($request->file('attachments') as $file){
+                   $image = base64_encode(file_get_contents($file->path()));
+                   $meta = new PostMeta();
+                   $meta->post_id = $id;
+                   $meta->key = 'attachment_image';
+                   $meta->value = $image;
+                   $meta->save();
+
+           }
+        }
         $request = $request->except(['_token', '_method']);
         $post = Post::findOrFail($id);
         $post->post_type = 'post';

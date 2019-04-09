@@ -35,7 +35,7 @@
                 <label>Description</label>
                 <textarea class="form-control" name="post_content" id="postContent" placeholder="Content..."></textarea>
             </div>
-            <input type="file" id="attachmentInput" name="attachments" style="display:none" multiple="true">
+            <input type="file" id="attachmentInput" name="attachments[]" style="display:none" multiple="true">
             <div class="row" id="attachmentPreview" style="overflow:hidden;">
             </div>
             <div class="form-group">

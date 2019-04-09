@@ -43,6 +43,15 @@
             <div class="col-md-10 post-content" >
                 <h5>{!! $post->post_title !!}</h5>
                 {!! $post->post_content !!}
+
+                @foreach($post->getMeta() as $attach)
+
+                    @if($attach->key === 'attachment_image')
+                        <div class="row">
+                            <img src="data:image/png;base64,{{$attach->value}}" width="400px" height="200px">
+                        </div>
+                    @endif
+                @endforeach
             </div>
         </div>
         
