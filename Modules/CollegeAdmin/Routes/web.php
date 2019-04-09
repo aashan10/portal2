@@ -11,6 +11,11 @@
 |
 */
 
-Route::prefix('collegeadmin')->group(function() {
-    Route::get('/', 'CollegeAdminController@index');
+Route::prefix('/admin')->name('admin.')->middleware(function($request, $next){
+    if(auth()->user()->hasRole('admin')){
+        return $next($request);
+    }
+    return view('errors.unauthorized')->with('message','You are not authorized to view this page!');
+})->group(function(){
+   Route::resource('/collegeAdmin', 'CollegeAdminController');
 });

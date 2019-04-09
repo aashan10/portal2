@@ -126,6 +126,7 @@
         </div>
         <div id="searchResults"></div>
         @role('admin')
+
             <div class="list-group-item">
                 <b>Student Info</b>
             </div>
@@ -142,7 +143,7 @@
                 </span>
             </div>
             <div class="list-group-item">
-                <span>Pending Students</span>
+                <a href="{{route('admin.collegeAdmin.index')}}" style="color: inherit"><span>Pending Students</span></a>
                 <span class="badge badge-warning float-right">
                     {{ $pendingStudents }}
                 </span>
