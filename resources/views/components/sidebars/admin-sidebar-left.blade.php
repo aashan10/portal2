@@ -1,13 +1,21 @@
 @role('admin')
-    <div class="card">
-        <div class="card-body">
+    <div class="card mb-3">
+        <div class="card-body px-0">
+            <b class="px-3">
+                Useful Admin Links
+            </b>
             <div class="list-group">
-                <b class="list-group-item">
-                    Useful Admin Links
-                </b>
                 @if($pendingUsers > 0)
                     <a class="list-group-item" href="#">
                         <i class="fa fa-user"></i> Inactive Users
+                        <span class="badge badge-danger float-right">
+                            {{ $pendingUsers }}
+                        </span>
+                    </a>
+                @endif()
+                @if($suspendedStudents > 0)
+                    <a class="list-group-item" href="#">
+                        <i class="fa fa-user"></i> Suspended Users
                         <span class="badge badge-danger float-right">
                             {{ $pendingUsers }}
                         </span>

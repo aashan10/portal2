@@ -35,8 +35,8 @@
                 <label>Description</label>
                 <textarea class="form-control" name="post_content" id="postContent" placeholder="Content..."></textarea>
             </div>
-            <input type="file" id="attachmentInput" name="attachments" style="display:none" multiple="true">
-            <div class="row" id="attachmentPreview" style="overflow:hidden;">
+            <input type="file" id="attachmentInput" name="attachments[]" style="display:none" multiple="multiple">
+            <div class="row px-3" id="attachmentPreview" style="overflow:hidden;">
             </div>
             <div class="form-group">
                 <button disabled class="btn btn-primary float-right mx-2 disabled" id="publishButton">Publish</button>
@@ -69,6 +69,7 @@
                     subjects.append(response.data);
                 },
                 error : function(response, statusCode){
+                    subjects.parent().parent().hide();
                     AjaxNotifier(response.responseJSON, statusCode);
                 }
             });
@@ -123,19 +124,22 @@
                     var reader = new FileReader();
                     
                     reader.onload = (function(file){  // The (file) recieves whatever is sent over closure
-                        var extension = file.type.split('/')[1];
+                        var extension = file.name.split('.');
+                        extension = extension[extension.length -1 ];
                         var images = ['jpg','jpeg','png','bmp', 'gif','svg'];
                         return function(e){ 
                             var image = $(document.createElement('img'));
                             var div = $(document.createElement('div'));
+                            var name = $(document.createElement('div'));
 
-                            div.addClass('col-md-4 col-xs-12 col-sm-6 mb-3');
+                            div.addClass('col-md-4 col-xs-12 col-sm-6 mb-3 pt-3');
                             div.css('float', 'left');
                             image.addClass("img-fluid");
                             image.css('position', 'relative');
                             image.css('min-width', '100%');
                             image.css('overflow', 'hidden');
-                            image.css('border', '1px solid #ccc');
+                            div.css('border', '1px solid #ccc');
+                            div.css('border-radius', '5px');
                             if(images.includes(extension)){
                                 image.attr('src', e.target.result);
                             }else{
@@ -143,6 +147,9 @@
                                 image.css('border' , '0');
                             }
                             div.append(image);
+                            name.html(file.name);
+                            name.css('text-align', 'center');
+                            div.append(name);
 
                             $('#attachmentPreview').append(div);
                         }

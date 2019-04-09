@@ -23,11 +23,32 @@ class PostsController extends Controller
     }
 
     public function update(Request $request, $id){
-        $request = $request->except(['_token', '_method']);
+        
+           
+        $updates = $request->except(['_token', '_method']);
         $post = Post::findOrFail($id);
         $post->post_type = 'post';
         $post->post_status = 'published';
-        $post->update($request);
+        if($request->file('attachments')){
+            foreach($request->file('attachments') as $file){
+                // $filename = bcrypt(md5(microtime().$file->getClientOriginalName())).'.'.$file->getClientOriginalExtension();
+                
+                $filename = $file->store('public/post_attachments');
+
+                $attachment = new Post();
+                $attachment->post_title = null;
+                $attachment->post_content = $filename;
+                $attachment->post_type = 'attachment';
+                $attachment->parent_id = $post->id;
+                $attachment->post_mime_type = $file->getClientMimeType();
+                $attachment->user_id = auth()->id();
+                $attachment->save();
+                $attachment->setMeta('extension', $file->getClientOriginalExtension());
+                $attachment->setMeta('original_name', $file->getClientOriginalName());
+            }
+        }
+        $post->update($updates);
+
         return Response::successWithData('Post published', $post);
     }
 
