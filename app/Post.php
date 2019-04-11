@@ -37,6 +37,20 @@ class Post extends Model
         }
     }
 
+    public function setMeta($key, $value){
+        $meta = $this->hasMany('App\PostMeta')->where('key', $key)->first();
+        if($meta !== null){
+            $meta->value = $value;  
+        }else{
+            $meta = new PostMeta();
+            $meta->post_id = $this->id;
+            $meta->key = $key;
+            $meta->value = $value;
+        }
+        $meta->save();
+        return true;
+    }
+
     public function attachments(){
         return $this->hasMany('App\Post', 'parent_id', 'id')->where('post_type','attachment')->get();
     }
@@ -55,7 +69,7 @@ class Post extends Model
         return null;
     }
     public function isImage(){
-        $mime_type = $this->getMeta('mime_type');
+        $mime_type = $this->post_mime_type;
         $image_mime_types = [
             'image/png',
             'image/jpg',

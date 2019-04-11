@@ -126,7 +126,6 @@
         </div>
         <div id="searchResults"></div>
         @role('admin')
-
             <div class="list-group-item">
                 <b>Student Info</b>
             </div>

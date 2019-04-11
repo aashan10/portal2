@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Modules\College\Entities\College;
+use Modules\Course\Entities\Course;
 use Spatie\Permission\Traits\HasRoles;
 use App\Post;
 class User extends Authenticatable
@@ -141,5 +143,9 @@ class User extends Authenticatable
 
     public function getCollege(){
         return College::find($this->college_id);
+    }
+    public function getCourse()
+    {
+        return Course::find($this->course_id);
     }
 }
