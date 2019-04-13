@@ -2,19 +2,37 @@
 
 namespace Modules\CollegeAdmin\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\CollegeAdmin\CollegeAdminBaseController;
+use Modules\College\Entities\College;
+use Modules\CollegeAdmin\Entities\CollegeAdmin;
 
 class CollegeAdminController extends CollegeAdminBaseController
 {
+    /**
+     * CollegeAdminController constructor.
+     */
+    public function __construct(College $college)
+    {
+        $this->college = College::all();
+    }
+
+
     /**
      * Display a listing of the resource.
      * @return Response
      */
     public function index()
     {
-        return view('collegeadmin::index');
+        $collegeAdmin = new CollegeAdmin();
+        $id = auth()->user()->id;
+        if($collegeAdmin->isCollegeAdmin($id)){
+            $this->pendingStudent = User::role('student')->where('status','pending')->get();
+            return view('collegeadmin::index',$this->data);
+        }
+       return redirect()->back();
     }
 
     /**
@@ -75,5 +93,22 @@ class CollegeAdminController extends CollegeAdminBaseController
     public function destroy($id)
     {
         //
+    }
+
+
+    public function approve($id)
+    {
+        $user = User::findorFail($id);
+        $user->status = 'active';
+        $user->save();
+        return 'Student Approved';
+    }
+    public function suspend($id)
+    {
+        $user = User::findorFail($id);
+        $user->status = 'suspended';
+        $user->save();
+        return 'Student Suspended';
+
     }
 }

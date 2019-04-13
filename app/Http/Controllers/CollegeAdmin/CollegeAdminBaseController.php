@@ -11,7 +11,7 @@ class CollegeAdminBaseController extends BaseController
     {
         parent::__construct();
         $this->middleware(function($request, $next){
-            if($this->user->hasRole('college admin')){
+            if($this->user->hasRole('college admin') || $this->user->hasRole('admin')){
                 return $next($request);
             }
             return view('errors.unauthorized')->with('message', 'You need to be a College Administrator to view this page!');
