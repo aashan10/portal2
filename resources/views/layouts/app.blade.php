@@ -39,7 +39,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-dark bg-primary navbar-laravel">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ (auth()->user()) ? url('/home') : url('/') }}">
                     <img src="{{ asset('images/logo.png') }}" width="30" height="30" alt="">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

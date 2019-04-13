@@ -10,11 +10,7 @@
         @if(count($user->getLinks() ) > 0)
         <li class="list-group-item" style="display:flex;flex-direction: row;justify-content: space-around">
             @foreach($user->getLinks() as $meta)
-                {!!
-                    '<a href="'
-                    .$meta->value
-                    .'"><i class="'.$meta->icon.' fa-2x"></i></a>'
-                !!}
+                <a href=" {{ ($meta->type == 'email') ? 'mailto:' : '' }}{{ $meta->value }}"><i class="{{ $meta->icon}} fa-2x"></i></a>
             @endforeach()
         </li>
         @endif()

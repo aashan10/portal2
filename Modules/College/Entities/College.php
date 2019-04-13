@@ -36,4 +36,12 @@ class College extends Model
     public function hasCourse(Course $course){
         return (CollegeCourse::where('college_id', $this->id)->where('course_id', $course->id)->first() !== null) ? true : false;
     }
+
+    public function courses(){
+        $courses = [];
+        foreach(CollegeCourse::where('college_id', $this->id)->get() as $course){
+            array_push($courses, Course::find($course));
+        }
+        return $courses;
+    }
 }

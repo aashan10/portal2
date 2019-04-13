@@ -19,20 +19,45 @@
 <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @stack('styles')
+    
     <style>
+        .dropdown-toggle::after {
+            display: none;
+        }
+        @media only screen and (max-width : 767px){
+            .votes{
+                width : 80px !important;
+                margin : 0;
+                float:left;
+            }
+            .post-content {
+                float: left;
+                overflow: auto;
+                max-width:calc(100% - 82px);
+                padding-left: 10px !important;
+            }
+            .post-options-button{
+                background-color: #fff !important;
+            }
+            .post-options{
+                margin-left:-130px !important;
+                margin-top:5px !important;
+            }
+            
+        }
         img{
             max-width:100% !important;
         }
         .tox-statusbar{
                 display : none !important;
-            }
+        }
     </style>
 </head>
 <body>
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">
+            <a class="navbar-brand" href="{{ url('/home') }}">
                 <img src="{{ asset('images/logo-blue.png') }}" width="30" height="30" alt="">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -100,10 +125,106 @@
         </div>
     </main>
 </div>
+<div class="modal fade" id="previewModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" >
+            <div class="col-md-12 mt-3">
+                <h4 id="fileName"></h4>
+            </div>
+            <div class="container bg-secondary" style="position:relative; display:block; width : 100%;">
+                <iframe src="" id="attachmentPreviewIframe" width="100%" height="100%" style="position : relative;top:0; left : 0; height : 500px;" frameborder="0"></iframe>
+            </div>
+            <div class="col-md-12 mb-3 mt-3">
+                <a href="{{ route('file-download', ':hash') }}" id="attachmentDownloadButton" class="btn btn-outline-primary">
+                    <i class="fa fa-download"></i> Download
+                </a>
 
+                <button class="btn float-right btn-outline-secondary" onClick="$('#previewModal').modal('hide');">
+                    <i class="fa fa-close"></i> Close
+                </button>
+                <a class="btn btn-info text-white" id="downloadAsZip" href="{{ route('zip-download' , ':post_id') }}">
+                    <i class="fa fa-file-archive-o"></i>  Download All Attachments
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
     
 
 <script src="{{ asset('/js/app.js') }}"></script>
 @stack('scripts')
+<script>
+        $('.attachmentPreview').click(function(event){
+            event.preventDefault();
+            $('#attachmentPreviewIframe').html('');
+            $('#downloadAsZip').attr('href',$('#downloadAsZip').attr('href').replace(':post_id', $(this).data('attachment').post_id));
+            $('#attachmentDownloadButton').attr('href', $('#attachmentDownloadButton').attr('href').replace(':hash', $(this).data('attachment').hash));
+            $('#attachmentPreviewIframe').attr('src',$(this).data('attachment').url);
+            $('#fileName').html($(this).data('attachment').original_name);
+            $('#previewModal').modal();
+        });
+        $('.upvoteButton').click(function(){
+            var id = $(this).parent().data('id');
+            var downvotebutton = $(this).siblings('.downvoteButton');
+            var url = '{{ route("post.upvote", ":id") }}';
+            url = url.replace(":id", id);
+            var self = this;
+            $.ajax({
+                url : url,
+                method : 'POST',
+                data : {
+                    _token : '{{ csrf_token() }}',
+                },
+                beforeSend : function(){
+                    $(self).addClass('disabled');
+                    $(self).attr('disabled', true);
+                },
+                success : function(response){
+                    $(self).addClass('btn-primary');
+                    $(self).removeClass('btn-outline-primary');
+                    $(self).removeClass('disabled');
+                    $(self).attr('disabled',false);
+                    downvotebutton.removeClass('btn-primary');
+                    downvotebutton.addClass('btn-outline-primary');
+                    $(self).siblings('.votesCount').html(response.data.votes_count+"<br/> Votes");
+                },
+                error : function(response){
+
+                }
+            });
+        });
+
+        $('.downvoteButton').click(function(){
+            var id = $(this).parent().data('id');
+            var upvoteButton = $(this).siblings('.upvoteButton');
+            var url = '{{ route("post.downvote", ":id") }}';
+            url = url.replace(":id", id);
+            console.log(url);
+            var self = this;
+            $.ajax({
+                url : url,
+                method : 'POST',
+                data : {
+                    _token : '{{ csrf_token() }}',
+                },
+                beforeSend : function(){
+                    $(self).addClass('disabled');
+                    $(self).attr('disabled', true);
+                },
+                success : function(response){
+                    $(self).addClass('btn-primary');
+                    $(self).removeClass('btn-outline-primary');
+                    $(self).removeClass('disabled');
+                    $(self).attr('disabled',false);
+                    upvoteButton.removeClass('btn-primary');
+                    upvoteButton.addClass('btn-outline-primary');
+                    $(self).siblings('.votesCount').html(response.data.votes_count+"<br/> Votes");
+                },
+                error : function(response){
+
+                }
+            });
+        });
+    </script>
 </body>
 </html>

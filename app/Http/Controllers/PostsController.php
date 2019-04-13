@@ -19,14 +19,16 @@ class PostsController extends Controller
     }
 
     public function show($id){
-        return $id;
+        
     }
 
     public function update(Request $request, $id){
         
-           
+        
         $updates = $request->except(['_token', '_method']);
         $post = Post::findOrFail($id);
+        $post->subject_id = $request->subject;
+        $post->course_id = $request->course;
         $post->post_type = 'post';
         $post->post_status = 'published';
         if($request->file('attachments')){
@@ -49,7 +51,7 @@ class PostsController extends Controller
         }
         $post->update($updates);
 
-        return Response::successWithData('Post published', $post);
+        return redirect()->back()->with('success', 'The post was created successfully!');
     }
 
     public function storeComment(Request $request, Post $post, $id){

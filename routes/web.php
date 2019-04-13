@@ -1,5 +1,6 @@
 <?php
 use App\Post;
+use Illuminate\Support\Facades\Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,7 @@ Route::group([ 'middleware' => ['web','welcome','active']],function(){
         Route::post('/post_comment/{post_id}','PostsController@storeComment')->name('comment');
         Route::post('/{id}/upvote','PostsController@upvote')->name('upvote');
         Route::post('/{id}/downvote','PostsController@downvote')->name('downvote');
+        Route::post('/{id}/block','PostsController@block')->name('block');
     });
 });
 Route::middleware(function($request, $next){
@@ -69,3 +71,28 @@ Route::get('post-attachment/{hash}', function($hash){
         return redirect(404);
     }
 })->name('post-attachment');
+
+Route::get('download-file/{hash}', function($hash){
+    $file = Post::where('post_content', $hash)->first();
+    if($file){
+        return Response::download(storage_path('app/public/post_attachments/'.$hash),$file->getMeta('original_name').'.'.$file->getMeta('extension'));
+        //return response()->download(storage_path('app/public/post_attachments/'.$hash),$file->getMeta('original_name').'.'.$file->getMeta('extension'));
+    }else{
+        return redirect(404);
+    }
+})->name('file-download');
+
+Route::get('download-zip/{post_id}', function($id){
+    $post = App\Post::findOrFail($id);
+    $attachments = $post->attachments();
+    $zip = new ZipArchive();
+    if($zip->open('notes.zip', ZipArchive::CREATE)){
+        foreach($attachments as $attachment){
+            $zip->addFile(storage_path('/app/public/post_attachments/').$attachment->post_content);
+        }
+        header('Content-type: application/zip');
+        header('Content-Disposition: attachment; filename="notes.zip"');
+        readfile('notes.zip');
+    }
+    $zip->close();
+})->name('zip-download');

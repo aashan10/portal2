@@ -7,7 +7,7 @@
                         <i class="fa fa-ellipsis-h"></i>
                     </button>
                     <div class="dropdown-menu post-options" aria-labelledby="postActions" style="padding:0; margin-top:-10px;">
-                        @if($post->user()->id == auth()->id())
+                        @if($post->user()->id == auth()->id() || auth()->user()->hasPermissionTo('delete_post'))
                             <small>
                                 <a class="dropdown-item text-danger" href="{{ route('post.destroy', $post->id) }}">
                                         <i class="fa fa-trash"></i> Delete Post
@@ -16,7 +16,7 @@
                         @endif()
                         @if($user->can('block_post') || $user->id == $post->user()->id)
                             <small>
-                                <a class="dropdown-item text-danger" href="{{ route('post.destroy', $post->id) }}">
+                                <a class="dropdown-item bg-gray text-danger" href="{{ route('post.block', $post->id) }}">
                                     <i class="fa fa-ban"></i> Block Post
                                 </a>
                             </small>
@@ -29,8 +29,8 @@
         
         
         <div class="row pt-3">
-            <div class="col-md-2 votes">
-                <div class="my-auto btn-group-vertical float-left"  data-id="{{ $post->id }}" role="group" style="vertical-align:baseline !important;">
+            <div class="col-md-2 votes" style="position:relative">
+                <div class="my-auto btn-group-vertical float-left"  data-id="{{ $post->id }}" role="group" style=";">
                     <button type="button" class="btn {{ (auth()->user()->hasUpvotedPost($post)) ? 'btn-primary' : 'btn-outline-primary' }} upvoteButton btn-sm px-0">
                         <i class="fa fa-arrow-up"></i>
                     </button>
