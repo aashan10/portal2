@@ -43,6 +43,29 @@
             <div class="col-md-10 post-content" >
                 <h5>{!! $post->post_title !!}</h5>
                 {!! $post->post_content !!}
+                @forelse( $post->attachments() as $attachment)
+                    <div class="col-md-4" style="float:left;">
+                        <a class="attachmentPreview" href="#" data-attachment="{{ json_encode([
+                            'id' => $attachment->id,
+                            'post_id' => $attachment->parent()->id,
+                            'original_name' => $attachment->getMeta('original_name'),
+                            'hash' => $attachment->post_content,
+                            'extension' => $attachment->getMeta('extension'),
+                            'url' => route('post-attachment',$attachment->post_content)
+                        ]) }}">
+                            @if($attachment->isImage())
+                                <img src="{{ $attachment->getFileUrl() }}" class=" border border-secondary"/>
+                            @else()
+                                <img src="/filetype_thumbs/{{ $attachment->getMeta('extension') }}.svg" class="border border-secondary"/>
+                            @endif()
+                            <p class="text-center">
+                                {{ $attachment->getMeta('original_name') }}
+                            </p>
+                        </a>
+                    </div>
+                @empty
+
+                @endforelse()
             </div>
         </div>
         

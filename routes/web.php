@@ -1,4 +1,5 @@
 <?php
+use App\Post;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,3 +56,16 @@ Route::middleware(function($request, $next){
     Route::get('/on-boarding','UserController@onBoarding')->name('user.onBoarding');
     Route::patch('/on-boarding','UserMetaController@onBoarding')->name('user.meta.onBoarding');
 });
+
+
+Route::get('post-attachment/{hash}', function($hash){
+    $file = Post::where('post_content', $hash)->first();
+    
+    if($file){
+        return response()->file(storage_path('app/public/post_attachments/'.$hash), [
+            'Content-Disposition: attachment; filename="'.$file->getMeta('original_name').'.'.$file->getMeta('extension').'"'
+        ]);
+    }else{
+        return redirect(404);
+    }
+})->name('post-attachment');

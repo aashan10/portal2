@@ -31,9 +31,9 @@ class PostsController extends Controller
         $post->post_status = 'published';
         if($request->file('attachments')){
             foreach($request->file('attachments') as $file){
-                // $filename = bcrypt(md5(microtime().$file->getClientOriginalName())).'.'.$file->getClientOriginalExtension();
+                $filename = sha1((md5(microtime().$file->getClientOriginalName()))).'.'.$file->getClientOriginalExtension();
                 
-                $filename = $file->store('public/post_attachments');
+                $file->storeAs('public/post_attachments', $filename);
 
                 $attachment = new Post();
                 $attachment->post_title = null;

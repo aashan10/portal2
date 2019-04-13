@@ -1,6 +1,23 @@
 @foreach($posts as $post)
     @include('post.components.post', ['post' => $post, 'comments' => $post->comments()])
 @endforeach()
+<div class="modal fade" id="previewModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" >
+            <div class="col-md-12 mt-3">
+                <h4 id="fileName"></h4>
+            </div>
+            <div class="container bg-secondary">
+                <iframe src="" id="attachmentPreviewIframe" width="100%" height="100%" style="width:100%;min-height:500px" frameborder="0"></iframe>
+            </div>
+            <div class="col-md-12 mb-3 mt-3">
+                <button class="btn btn-outline-primary">
+                    <i class="fa fa-download"></i> Download
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 @push('styles')
     <style>
         .dropdown-toggle::after {
@@ -25,12 +42,20 @@
                 margin-left:-130px !important;
                 margin-top:5px !important;
             }
+            
         }
     </style>
 @endpush()
 
 @push('scripts')
     <script>
+        $('.attachmentPreview').click(function(event){
+            event.preventDefault();
+            $('#attachmentPreviewIframe').html('');
+            $('#attachmentPreviewIframe').attr('src',$(this).data('attachment').url);
+            $('#fileName').html($(this).data('attachment').original_name);
+            $('#previewModal').modal();
+        });
         $('.upvoteButton').click(function(){
             var id = $(this).parent().data('id');
             var downvotebutton = $(this).siblings('.downvoteButton');

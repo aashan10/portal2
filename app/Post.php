@@ -112,4 +112,18 @@ class Post extends Model
     public function countVotes(){
         return count($this->upvotes()) - count($this->downvotes());
     }
+    public function getFileUrl(){
+        if($this->post_type == 'attachment'){
+            return '/storage/post_attachments/'.$this->post_content;
+        }else{
+            return null;
+        }
+    }
+    public function parent(){
+        if($this->parent_id !== null){
+            return $this->belongsTo(Post::class, 'parent_id', 'id')->first();
+        }else{
+            return null;
+        }
+    }
 }
