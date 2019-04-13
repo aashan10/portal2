@@ -86,13 +86,14 @@ Route::get('download-zip/{post_id}', function($id){
     $post = App\Post::findOrFail($id);
     $attachments = $post->attachments();
     $zip = new ZipArchive();
-    if($zip->open('notes.zip', ZipArchive::CREATE)){
+    if($zip->open(storage_path('/app/public/post_attachments/').preg_replace('#[ -]+#', '-', $post->post_title).'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE )){
         foreach($attachments as $attachment){
-            $zip->addFile(storage_path('/app/public/post_attachments/').$attachment->post_content);
+            $zip->addFile(storage_path('/app/public/post_attachments/').$attachment->post_content, $attachment->post_content);
         }
         header('Content-type: application/zip');
-        header('Content-Disposition: attachment; filename="notes.zip"');
-        readfile('notes.zip');
+        header('Content-Disposition: attachment; filename="'.preg_replace('#[ -]+#', '-', $post->post_title). '.zip"');
+        readfile(storage_path('/app/public/post_attachments/').preg_replace('#[ -]+#', '-', $post->post_title).'.zip');
     }
     $zip->close();
 })->name('zip-download');
+
